@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/caveat@5.0.0/index.css" />
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; overflow-x: hidden; }
+  html, body { height: 100%; overflow-x: hidden; overscroll-behavior: none; }
   body {
     font-family: 'Comfortaa', system-ui, sans-serif;
     color: #fff;
@@ -29,6 +29,7 @@
     pointer-events: none;
     transition: opacity 0.8s ease;
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .screen.active { opacity: 1; pointer-events: auto; }
 
@@ -186,7 +187,10 @@
     max-height: 260px;
     overflow-y: auto;
     padding: 8px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
+  .chat-container::-webkit-scrollbar { display: none; width: 0; }
   @keyframes slideIn {
     from { transform: translateY(10px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
@@ -253,12 +257,14 @@
   }
   .map-dot.home { background: linear-gradient(135deg, #10b981, #06b6d4); }
   .map-label {
-    font-size: 0.75rem;
-    background: rgba(0,0,0,0.6);
-    padding: 4px 10px;
+    font-size: 0.72rem;
+    background: rgba(0,0,0,0.65);
+    padding: 4px 8px;
     border-radius: 10px;
-    white-space: nowrap;
+    white-space: normal;
     backdrop-filter: blur(10px);
+    max-width: 90px;
+    line-height: 1.2;
   }
   .map-grid {
     position: absolute; inset: 0;
@@ -325,25 +331,36 @@
 
   /* ---------- LETTER ANIMATION ---------- */
   .letter-scene {
-    perspective: 1000px;
     width: 100%;
     max-width: 600px;
     margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .envelope {
     position: relative;
     width: 100%;
-    max-width: 500px;
+    max-width: 520px;
     margin: 0 auto;
-    transform-style: preserve-3d;
   }
   .envelope-body {
     background: linear-gradient(135deg, #fef3c7, #fde68a);
     border-radius: 12px;
-    padding: 20px;
+    padding: 16px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.4);
     position: relative;
-    overflow: hidden;
+    max-height: 75vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(120,53,15,0.3) transparent;
+  }
+  .envelope-body::-webkit-scrollbar { width: 6px; }
+  .envelope-body::-webkit-scrollbar-track { background: transparent; }
+  .envelope-body::-webkit-scrollbar-thumb {
+    background: rgba(120,53,15,0.3);
+    border-radius: 3px;
   }
   .envelope-flap {
     position: absolute;
@@ -356,27 +373,27 @@
     transition: transform 1.5s ease;
     clip-path: polygon(0 0, 100% 0, 50% 100%);
     z-index: 10;
+    pointer-events: none;
   }
   .envelope.open .envelope-flap {
     transform: rotateX(180deg);
+    opacity: 0;
   }
   .letter-content {
     background: #fffef5;
     color: #78350f;
-    padding: clamp(16px, 3vw, 28px);
+    padding: clamp(16px, 3vw, 24px);
     border-radius: 8px;
     font-family: 'Caveat', cursive;
     font-size: clamp(0.85rem, 2vw, 1rem);
-    line-height: 1.6;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 2s ease, opacity 1s ease;
+    line-height: 1.55;
     opacity: 0;
-    margin-top: 20px;
+    transform: translateY(20px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
   }
   .envelope.open .letter-content {
-    max-height: 2000px;
     opacity: 1;
+    transform: translateY(0);
   }
   .letter-content p { margin-bottom: 10px; text-align: left; }
   .letter-content .letter-title {
@@ -393,7 +410,7 @@
   }
   .letter-photo {
     width: 100%;
-    max-width: 240px;
+    max-width: 220px;
     margin: 16px auto 0;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -429,11 +446,12 @@
     .screen { padding: 16px; }
     .card { padding: 20px; border-radius: 20px; }
     .map-container { aspect-ratio: 1 / 1.1; }
-    .map-label { font-size: 0.65rem; padding: 3px 8px; }
+    .map-label { font-size: 0.62rem; padding: 3px 6px; max-width: 72px; }
     .map-dot { width: 26px; height: 26px; font-size: 12px; }
     .chat-bubble { max-width: 90%; }
     .question-buttons { flex-direction: column; align-items: center; }
-    .letter-content { font-size: 0.8rem; }
+    .letter-content { font-size: 0.82rem; }
+    .envelope-body { max-height: 80vh; padding: 10px; }
   }
   @media (min-width: 768px) and (max-width: 1024px) {
     .card { max-width: 560px; }
@@ -450,16 +468,16 @@
   <div class="bg bg-1"></div>
   <div class="hearts-bg" id="heartsBg1"></div>
   <h1>🎮 Привет, солнышко!</h1>
-  <p style="margin-bottom: 16px;">Прежде чем впустить тебя дальше — поймай <b>15 сердечек</b>!<br>Кликай (или тапай) по ним, пока они не улетели 💕</p>
+  <p style="margin-bottom: 16px;">Прежде чем впустить тебя дальше — поймай <b>15 сердечек</b>!<br>Кликай (или тапай) по ним, пока они не улетели 💕<br><span style="font-size:0.85rem;opacity:0.8;">⚠️ Пропустила сердечко — прогресс уменьшается!</span></p>
   <div style="display:flex;justify-content:space-between;width:100%;max-width:480px;margin-bottom:8px;font-weight:700;">
     <div>❤️ <span id="score">0</span> / 15</div>
     <div>⏱️ <span id="timer">30</span>с</div>
   </div>
-  <div style="width:100%;max-width:480px;height:10px;background:rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;margin-bottom:12px;">
+  <div style="width:100%;max-width:480px;height:12px;background:rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;margin-bottom:12px;position:relative;">
     <div id="progressFill" style="height:100%;background:linear-gradient(90deg,#ec4899,#fbbf24);width:0%;transition:width 0.3s ease;border-radius:10px;"></div>
   </div>
   <div id="gameArea" style="position:relative;width:100%;max-width:480px;height:420px;background:rgba(0,0,0,0.25);border-radius:24px;border:2px solid rgba(255,255,255,0.2);overflow:hidden;touch-action:manipulation;margin:16px 0;"></div>
-  <button class="btn" id="startGameBtn">Начать игру 🚀</button>
+  <button class="btn" id="startGameBtn">Начать игру </button>
 </div>
 
 <!-- ============ SCREEN 2: LOGIN ============ -->
@@ -502,25 +520,25 @@
   <div class="map-container" id="mapContainer">
     <div class="map-grid"></div>
     <svg class="map-svg" viewBox="0 0 560 400" preserveAspectRatio="none">
-      <path id="mapPath" class="map-path" d="M 60 340 Q 120 280 180 300 T 280 220 Q 340 180 400 200 T 500 120" />
+      <path id="mapPath" class="map-path" d="M 90 340 Q 150 280 210 300 T 310 220 Q 370 180 430 200 T 520 120" />
     </svg>
-    <div class="map-point" id="pt1" style="left: 10%; top: 85%;">
+    <div class="map-point" id="pt1" style="left: 18%; top: 85%;">
       <div class="map-dot home"></div>
-      <div class="map-label">11:00, у скамеечки</div>
+      <div class="map-label">11:00<br>скамейка</div>
     </div>
-    <div class="map-point" id="pt2" style="left: 32%; top: 75%;">
+    <div class="map-point" id="pt2" style="left: 38%; top: 75%;">
       <div class="map-dot">?</div>
       <div class="map-label">Секрет 🤫</div>
     </div>
-    <div class="map-point" id="pt3" style="left: 50%; top: 55%;">
+    <div class="map-point" id="pt3" style="left: 55%; top: 55%;">
+      <div class="map-dot">?</div>
+      <div class="map-label">Секрет </div>
+    </div>
+    <div class="map-point" id="pt4" style="left: 76%; top: 50%;">
       <div class="map-dot">?</div>
       <div class="map-label">Секрет 🤫</div>
     </div>
-    <div class="map-point" id="pt4" style="left: 71%; top: 50%;">
-      <div class="map-dot">?</div>
-      <div class="map-label">Секрет 🤫</div>
-    </div>
-    <div class="map-point" id="pt5" style="left: 89%; top: 30%;">
+    <div class="map-point" id="pt5" style="left: 92%; top: 30%;">
       <div class="map-dot">?</div>
       <div class="map-label">Секрет </div>
     </div>
@@ -588,7 +606,7 @@
 function createFloatingHearts(containerId) {
   const c = document.getElementById(containerId);
   if (!c) return;
-  const emojis = ['💖','💕','💗','💓','✨','🌸','💘'];
+  const emojis = ['💖','💕','💗','💓','✨','','💘'];
   for (let i = 0; i < 15; i++) {
     const h = document.createElement('div');
     h.className = 'heart-float';
@@ -616,6 +634,12 @@ const timerEl = document.getElementById('timer');
 const progressFill = document.getElementById('progressFill');
 let score = 0, timeLeft = 30, gameInterval, spawnInterval, gameActive = false;
 const GOAL = 15;
+const PENALTY_PER_MISS = 7; // % decrease per missed heart
+
+function updateProgress() {
+  const pct = Math.max(0, Math.min(100, (score / GOAL) * 100));
+  progressFill.style.width = pct + '%';
+}
 
 function spawnHeart() {
   if (!gameActive) return;
@@ -629,6 +653,7 @@ function spawnHeart() {
   h.style.top = '-50px';
   gameArea.appendChild(h);
 
+  let caught = false;
   const duration = 2500 + Math.random()*2000;
   const startY = -50;
   const endY = gameArea.clientHeight + 50;
@@ -637,7 +662,22 @@ function spawnHeart() {
 
   function animate(now) {
     const t = (now - startTime) / duration;
-    if (t >= 1 || !h.isConnected) { h.remove(); return; }
+    if (t >= 1) {
+      if (!caught && gameActive) {
+        // Missed! Penalty
+        score = Math.max(0, score - 1);
+        scoreEl.textContent = score;
+        updateProgress();
+        // Flash red
+        progressFill.style.background = 'linear-gradient(90deg,#ef4444,#f97316)';
+        setTimeout(() => {
+          progressFill.style.background = 'linear-gradient(90deg,#ec4899,#fbbf24)';
+        }, 400);
+      }
+      h.remove();
+      return;
+    }
+    if (!h.isConnected) return;
     h.style.top = (startY + (endY-startY)*t) + 'px';
     h.style.transform = `translateX(${Math.sin(t*Math.PI*2)*sway}px)`;
     requestAnimationFrame(animate);
@@ -646,10 +686,11 @@ function spawnHeart() {
 
   const catchHeart = (e) => {
     e.preventDefault();
-    if (!gameActive) return;
+    if (!gameActive || caught) return;
+    caught = true;
     score++;
     scoreEl.textContent = score;
-    progressFill.style.width = Math.min(100, (score/GOAL)*100) + '%';
+    updateProgress();
     const s = document.createElement('div');
     s.textContent = '✨';
     s.style.cssText = 'position:absolute;pointer-events:none;font-size:20px;animation:sparkle 0.6s ease forwards;left:'+h.style.left+';top:'+h.style.top+';';
@@ -666,11 +707,11 @@ function startGame() {
   score = 0; timeLeft = 30; gameActive = true;
   scoreEl.textContent = '0';
   timerEl.textContent = '30';
-  progressFill.style.width = '0%';
+  updateProgress();
   gameArea.innerHTML = '';
   document.getElementById('startGameBtn').style.display = 'none';
 
-  spawnInterval = setInterval(spawnHeart, 500);
+  spawnInterval = setInterval(spawnHeart, 600);
   gameInterval = setInterval(() => {
     timeLeft--;
     timerEl.textContent = timeLeft;
@@ -774,7 +815,7 @@ document.getElementById('whereBtn').addEventListener('click', () => {
     addBubble('Но я уже сам всё выбрал 😊', 'bot');
   }, 3500);
   setTimeout(() => {
-    addBubble('Смотри, какой маршрут я составил... 🗺️', 'bot');
+    addBubble('Смотри, какой маршрут я составил... 👀', 'bot');
   }, 5500);
   setTimeout(() => goTo('screen4'), 7500);
 });
@@ -789,7 +830,7 @@ function startMapAnimation() {
   path.classList.add('animate');
   const points = ['pt1','pt2','pt3','pt4','pt5'];
   const msgs = [
-    ' Встречаемся в 11:00 у скамеечки перед твоим домом',
+    ' Встречаемся в 11:00 у скамейки перед твоим домом',
     'Ой, не покажу... ',
     'Тут тоже секрет 🤫',
     'И здесь сюрприз 🎁',
@@ -835,14 +876,13 @@ const questionWrap = document.getElementById('questionWrap');
 const letterScene = document.getElementById('letterScene');
 const envelope = document.getElementById('envelope');
 
-// Teleport "No" button
 btnNo.addEventListener('click', (e) => {
   e.preventDefault();
   const screen = document.getElementById('screen6');
   const maxX = screen.clientWidth - btnNo.offsetWidth - 20;
   const maxY = screen.clientHeight - btnNo.offsetHeight - 20;
-  const newX = Math.random() * maxX;
-  const newY = Math.random() * maxY;
+  const newX = Math.max(10, Math.random() * maxX);
+  const newY = Math.max(10, Math.random() * maxY);
   btnNo.style.position = 'fixed';
   btnNo.style.left = newX + 'px';
   btnNo.style.top = newY + 'px';
@@ -853,9 +893,7 @@ btnNo.addEventListener('click', (e) => {
   btnNo.textContent = messages[Math.floor(Math.random() * messages.length)];
 });
 
-// "Yes" button - heart rain + letter
 btnYes.addEventListener('click', () => {
-  // Heart rain (blue and green)
   const heartEmojis = ['💙', '💚', '', '💠', ''];
   for (let i = 0; i < 100; i++) {
     setTimeout(() => {
@@ -870,12 +908,10 @@ btnYes.addEventListener('click', () => {
     }, i * 30);
   }
   
-  // Hide question, show letter scene
   setTimeout(() => {
     questionWrap.style.display = 'none';
     letterScene.style.display = 'block';
     
-    // Open envelope after a moment
     setTimeout(() => {
       envelope.classList.add('open');
     }, 500);
