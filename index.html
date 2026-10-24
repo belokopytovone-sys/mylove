@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Для тебя ❤</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/comfortaa@5.0.0/index.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/caveat@5.0.0/index.css" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow-x: hidden; }
+  body {
+    font-family: 'Comfortaa', system-ui, sans-serif;
+    color: #fff;
+    background: #0a0a1a;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+    overflow-y: auto;
+  }
+  .screen.active { opacity: 1; pointer-events: auto; }
+
+  .bg {
+    position: absolute; inset: 0; z-index: -2;
+    transition: opacity 1s ease;
+  }
+  .bg-1 { background: linear-gradient(135deg, #1e3a8a 0%, #065f46 50%, #1e40af 100%); }
+  .bg-2 { background: linear-gradient(135deg, #6d28d9 0%, #c026d3 50%, #4c1d95 100%); }
+  .bg-3 { background: linear-gradient(135deg, #d45bbe 0%, #8b5cf6 50%, #ec4899 100%); }
+  .bg-4 { background: linear-gradient(135deg, #0f766e 0%, #1d4ed8 50%, #0891b2 100%); }
+  .bg-5 { background: linear-gradient(135deg, #7c3aed 0%, #db2777 50%, #4f46e5 100%); }
+  .bg-6 { background: linear-gradient(135deg, #be185d 0%, #9333ea 50%, #d45bbe 100%); }
+
+  .hearts-bg {
+    position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  }
+  .heart-float {
+    position: absolute;
+    font-size: 24px;
+    opacity: 0.25;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+  }
+
+  h1, h2, h3 { font-weight: 700; letter-spacing: 0.5px; }
+  h1 { font-size: clamp(1.8rem, 5vw, 3rem); text-align: center; margin-bottom: 16px; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  h2 { font-size: clamp(1.4rem, 4vw, 2.2rem); text-align: center; margin-bottom: 14px; }
+  p { font-size: clamp(0.95rem, 2.5vw, 1.1rem); line-height: 1.6; text-align: center; max-width: 600px; }
+
+  .card {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 24px;
+    padding: clamp(20px, 4vw, 40px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 520px;
+    animation: cardIn 0.8s ease;
+  }
+  @keyframes cardIn {
+    from { transform: translateY(30px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    box-shadow: 0 10px 30px rgba(236,72,153,0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 16px;
+  }
+  .btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 15px 40px rgba(236,72,153,0.6); }
+  .btn:active { transform: translateY(0) scale(0.98); }
+  .btn.secondary { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); box-shadow: none; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 2px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 12px;
+  }
+  input::placeholder { color: rgba(255,255,255,0.5); }
+  input:focus { border-color: #ec4899; background: rgba(255,255,255,0.15); }
+
+  .handwritten {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+  }
+
+  .shake { animation: shake 0.4s ease; }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+  }
+
+  .pop { animation: pop 0.5s ease; }
+  @keyframes pop {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  /* ---------- SCREEN 2: LOGIN ---------- */
+  .login-icon {
+    font-size: 4rem;
+    text-align: center;
+    margin-bottom: 12px;
+    animation: wiggle 2s ease-in-out infinite;
+  }
+  @keyframes wiggle {
+    0%,100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+  .hint {
+    font-size: 0.85rem;
+    opacity: 0;
+    text-align: center;
+    margin-top: 4px;
+    font-style: italic;
+    transition: opacity 0.5s ease;
+    min-height: 20px;
+  }
+  .hint.show { opacity: 0.7; }
+  .error-msg {
+    color: #fecaca;
+    text-align: center;
+    margin-top: 8px;
+    min-height: 20px;
+    font-size: 0.9rem;
+  }
+
+  /* ---------- SCREEN 3: CHAT ---------- */
+  .chat-bubble {
+    background: rgba(255,255,255,0.15);
+    border-radius: 18px;
+    padding: 14px 18px;
+    margin: 8px 0;
+    max-width: 85%;
+    animation: slideIn 0.5s ease;
+    word-wrap: break-word;
+  }
+  .chat-bubble.bot { align-self: flex-start; background: rgba(139,92,246,0.3); }
+  .chat-bubble.user { align-self: flex-end; background: rgba(236,72,153,0.3); }
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 520px;
+    min-height: 180px;
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 8px;
+  }
+  @keyframes slideIn {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .chat-input-wrap {
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .chat-input-wrap input {
+    flex: 1;
+    margin-bottom: 0;
+  }
+  .chat-input-wrap .btn {
+    margin-top: 0;
+    padding: 14px 20px;
+    flex-shrink: 0;
+  }
+
+  /* ---------- SCREEN 4: MAP ---------- */
+  .map-container {
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 1.4 / 1;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    border: 2px solid rgba(255,255,255,0.2);
+    position: relative;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  .map-svg { width: 100%; height: 100%; }
+  .map-path {
+    fill: none;
+    stroke: #fbbf24;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    filter: drop-shadow(0 0 8px rgba(251,191,36,0.6));
+  }
+  .map-path.animate { animation: drawPath 8s ease forwards; }
+  @keyframes drawPath { to { stroke-dashoffset: 0; } }
+
+  .map-point {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .map-point.show { opacity: 1; }
+  .map-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    border: 3px solid #fff;
+    margin: 0 auto 6px;
+    box-shadow: 0 0 20px rgba(236,72,153,0.8);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .map-dot.home { background: linear-gradient(135deg, #10b981, #06b6d4); }
+  .map-label {
+    font-size: 0.75rem;
+    background: rgba(0,0,0,0.6);
+    padding: 4px 10px;
+    border-radius: 10px;
+    white-space: nowrap;
+    backdrop-filter: blur(10px);
+  }
+  .map-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* ---------- SCREEN 5: WHAT TO BRING ---------- */
+  .bring-list {
+    list-style: none;
+    width: 100%;
+    max-width: 480px;
+  }
+  .bring-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+    padding: 16px 20px;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: all 0.6s ease;
+  }
+  .bring-item.show { opacity: 1; transform: translateX(0); }
+  .bring-icon { font-size: 2rem; flex-shrink: 0; }
+  .bring-text { font-size: 0.95rem; line-height: 1.4; }
+  .bring-text b { color: #fbbf24; }
+
+  /* ---------- SCREEN 6: QUESTION ---------- */
+  .question-wrap {
+    text-align: center;
+    width: 100%;
+    max-width: 520px;
+  }
+  .question-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .btn-yes {
+    background: linear-gradient(135deg, #10b981, #06b6d4);
+    box-shadow: 0 10px 30px rgba(16,185,129,0.4);
+    font-size: 1.2rem;
+    padding: 18px 40px;
+  }
+  .btn-yes:hover { box-shadow: 0 15px 40px rgba(16,185,129,0.6); }
+  .btn-no {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 10px 30px rgba(239,68,68,0.4);
+    font-size: 1.2rem;
+    padding: 18px 40px;
+    position: relative;
+    transition: none;
+  }
+
+  /* ---------- LETTER ANIMATION ---------- */
+  .letter-scene {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  .envelope {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    transform-style: preserve-3d;
+  }
+  .envelope-body {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+  .envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(135deg, #fde68a, #fbbf24);
+    transform-origin: top;
+    transition: transform 1.5s ease;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    z-index: 10;
+  }
+  .envelope.open .envelope-flap {
+    transform: rotateX(180deg);
+  }
+  .letter-content {
+    background: #fffef5;
+    color: #78350f;
+    padding: clamp(20px, 4vw, 32px);
+    border-radius: 8px;
+    font-family: 'Caveat', cursive;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    line-height: 1.7;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 2s ease, opacity 1s ease;
+    opacity: 0;
+    margin-top: 20px;
+  }
+  .envelope.open .letter-content {
+    max-height: 2000px;
+    opacity: 1;
+  }
+  .letter-content p { margin-bottom: 12px; text-align: left; }
+  .letter-content .letter-title {
+    text-align: center;
+    font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+    margin-bottom: 16px;
+    color: #be185d;
+  }
+  .letter-content .letter-sign {
+    text-align: right;
+    margin-top: 20px;
+    font-size: 1.3em;
+    color: #be185d;
+  }
+  .letter-photo {
+    width: 100%;
+    max-width: 280px;
+    margin: 20px auto 0;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: block;
+  }
+
+  .confetti {
+    position: fixed;
+    width: 10px; height: 10px;
+    pointer-events: none;
+    z-index: 9999;
+    animation: confettiFall 3s linear forwards;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(-100vh) rotate(0); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  .heart-rain {
+    position: fixed;
+    font-size: 30px;
+    pointer-events: none;
+    z-index: 9998;
+    animation: heartRain 2.5s linear forwards;
+  }
+  @keyframes heartRain {
+    0% { transform: translateY(-100px) rotate(0); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0.8; }
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 480px) {
+    .screen { padding: 16px; }
+    .card { padding: 20px; border-radius: 20px; }
+    .map-container { aspect-ratio: 1 / 1.1; }
+    .map-label { font-size: 0.65rem; padding: 3px 8px; }
+    .map-dot { width: 26px; height: 26px; font-size: 12px; }
+    .chat-bubble { max-width: 90%; }
+    .question-buttons { flex-direction: column; align-items: center; }
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .card { max-width: 560px; }
+  }
+  @media (min-width: 1024px) {
+    .card { max-width: 600px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SCREEN 1: CATCH HEARTS GAME ============ -->
+<div class="screen active" id="screen1">
+  <div class="bg bg-1"></div>
+  <div class="hearts-bg" id="heartsBg1"></div>
+  <h1>🎮 Привет, солнышко!</h1>
+  <p style="margin-bottom: 16px;">Прежде чем впустить тебя дальше — поймай <b>15 сердечек</b>!<br>Кликай (или тапай) по ним, пока они не улетели 💕</p>
+  <div style="display:flex;justify-content:space-between;width:100%;max-width:480px;margin-bottom:8px;font-weight:700;">
+    <div>❤️ <span id="score">0</span> / 15</div>
+    <div>⏱️ <span id="timer">30</span>с</div>
+  </div>
+  <div style="width:100%;max-width:480px;height:10px;background:rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;margin-bottom:12px;">
+    <div id="progressFill" style="height:100%;background:linear-gradient(90deg,#ec4899,#fbbf24);width:0%;transition:width 0.3s ease;border-radius:10px;"></div>
+  </div>
+  <div id="gameArea" style="position:relative;width:100%;max-width:480px;height:420px;background:rgba(0,0,0,0.25);border-radius:24px;border:2px solid rgba(255,255,255,0.2);overflow:hidden;touch-action:manipulation;margin:16px 0;"></div>
+  <button class="btn" id="startGameBtn">Начать игру 🚀</button>
+</div>
+
+<!-- ============ SCREEN 2: LOGIN ============ -->
+<div class="screen" id="screen2">
+  <div class="bg bg-2"></div>
+  <div class="hearts-bg" id="heartsBg2"></div>
+  <div class="card">
+    <div class="login-icon">🔐</div>
+    <h2>Кто тут?</h2>
+    <p style="margin-bottom: 16px;">Только для самой особенной девушки во вселенной ✨</p>
+    <input type="text" id="loginInput" placeholder="Логин (как я тебя называю)" autocomplete="off" />
+    <input type="password" id="passwordInput" placeholder="Пароль (Д месяц ГГГГ)" autocomplete="off" />
+    <p class="hint" id="loginHint"> Подсказка: 6 букв + дата, когда всё началось</p>
+    <div class="error-msg" id="loginError"></div>
+    <button class="btn" id="loginBtn" style="width:100%;">Войти 💖</button>
+  </div>
+</div>
+
+<!-- ============ SCREEN 3: WHERE WE GO ============ -->
+<div class="screen" id="screen3">
+  <div class="bg bg-3"></div>
+  <div class="hearts-bg" id="heartsBg3"></div>
+  <h1>Куда мы пойдём? </h1>
+  <p style="margin-bottom: 16px;">У тебя есть идеи? Напиши, куда хочешь пойти — я рассмотрю!</p>
+  <div class="chat-container" id="chatContainer">
+    <div class="chat-bubble bot">Привет! Знаешь, что это за сайт и чего я от тебя хочу? 😉</div>
+  </div>
+  <div class="chat-input-wrap">
+    <input type="text" id="whereInput" placeholder="Напиши свой вариант..." />
+    <button class="btn" id="whereBtn">📤</button>
+  </div>
+</div>
+
+<!-- ============ SCREEN 4: MAP ============ -->
+<div class="screen" id="screen4">
+  <div class="bg bg-4"></div>
+  <div class="hearts-bg" id="heartsBg4"></div>
+  <h1>🗺️ Маршрут свидания</h1>
+  <p style="margin-bottom: 12px;">Я уже всё продумал... смотри, какой путь нас ждёт!</p>
+  <div class="map-container" id="mapContainer">
+    <div class="map-grid"></div>
+    <svg class="map-svg" viewBox="0 0 560 400" preserveAspectRatio="none">
+      <path id="mapPath" class="map-path" d="M 60 340 Q 120 280 180 300 T 280 220 Q 340 180 400 200 T 500 120" />
+    </svg>
+    <div class="map-point" id="pt1" style="left: 10%; top: 85%;">
+      <div class="map-dot home"></div>
+      <div class="map-label">11:00, у скамеечки</div>
+    </div>
+    <div class="map-point" id="pt2" style="left: 32%; top: 75%;">
+      <div class="map-dot">?</div>
+      <div class="map-label">Секрет 🤫</div>
+    </div>
+    <div class="map-point" id="pt3" style="left: 50%; top: 55%;">
+      <div class="map-dot">?</div>
+      <div class="map-label">Секрет 🤫</div>
+    </div>
+    <div class="map-point" id="pt4" style="left: 71%; top: 50%;">
+      <div class="map-dot">?</div>
+      <div class="map-label">Секрет 🤫</div>
+    </div>
+    <div class="map-point" id="pt5" style="left: 89%; top: 30%;">
+      <div class="map-dot">?</div>
+      <div class="map-label">Секрет </div>
+    </div>
+  </div>
+  <p id="mapMsg" class="handwritten" style="opacity: 0; transition: opacity 0.8s;"></p>
+  <button class="btn" id="mapNextBtn" style="opacity: 0; pointer-events: none; transition: opacity 0.5s;">Дальше →</button>
+</div>
+
+<!-- ============ SCREEN 5: WHAT TO BRING ============ -->
+<div class="screen" id="screen5">
+  <div class="bg bg-5"></div>
+  <div class="hearts-bg" id="heartsBg5"></div>
+  <h1>🎒 Что взять с собой?</h1>
+  <p style="margin-bottom: 20px;">Список обязательных вещей для нашего приключения:</p>
+  <ul class="bring-list" id="bringList">
+    <li class="bring-item"><div class="bring-icon">🚌</div><div class="bring-text"><b>Проездной</b> — чтобы мы никуда не опоздали</div></li>
+    <li class="bring-item"><div class="bring-icon">😊</div><div class="bring-text"><b>Хорошее настроение</b> — обязательно, иначе не пущу!</div></li>
+    <li class="bring-item"><div class="bring-icon">😁</div><div class="bring-text"><b>Огромную улыбку</b> — она будет светить ярче солнца</div></li>
+    <li class="bring-item"><div class="bring-icon">💅</div><div class="bring-text"><b>Красиво выглядеть</b> — то есть как всегда, ты же у меня самая красивая 💖</div></li>
+    <li class="bring-item"><div class="bring-icon">✨</div><div class="bring-text"><b>И ничего больше!</b> Всё остальное я беру на себя</div></li>
+  </ul>
+  <button class="btn" id="bringNextBtn">Я готова! Поехали 🚀</button>
+</div>
+
+<!-- ============ SCREEN 6: QUESTION + LETTER ============ -->
+<div class="screen" id="screen6">
+  <div class="bg bg-6"></div>
+  <div class="hearts-bg" id="heartsBg6"></div>
+  
+  <div id="questionWrap" class="question-wrap">
+    <h1>💝 Последний вопрос</h1>
+    <p style="margin-bottom: 20px; font-size: clamp(1.1rem, 3vw, 1.4rem);">Ты готова пойти на свидание?</p>
+    <div class="question-buttons">
+      <button class="btn btn-yes" id="btnYes">Да! 💚</button>
+      <button class="btn btn-no" id="btnNo">Нет 💔</button>
+    </div>
+  </div>
+
+  <div id="letterScene" class="letter-scene" style="display:none;">
+    <div class="envelope" id="envelope">
+      <div class="envelope-flap"></div>
+      <div class="envelope-body">
+        <div class="letter-content">
+          <div class="letter-title">Моей Ксюше 💕</div>
+          <p>Моя самая нежная и родная,</p>
+          <p>Знаешь, я тут подумал… Мы знакомы всего месяц, а встречаемся и того меньше — две недели. Но у меня такое ощущение, что я знаю тебя всю жизнь. Как будто ты всегда была где-то рядом, просто мы встретились только сейчас.</p>
+          <p>За это короткое время ты каким-то невероятным образом стала для меня самым близким, самым родным и самым важным человеком. Мое сердце будто просто узнало тебя с первой секунды. Мне безумно хорошо с тобой. Знаешь это чувство, когда можно просто молчать и это молчание не давит, а наоборот — успокаивает? Вот с тобой так. Мне приятно каждое мгновение, проведенное рядом, будь то наше свидание или просто переписка перед сном.</p>
+          <p>Ты даже не представляешь, какая ты удивительная. В тебе есть какая-то светлая, настоящая магия. Твоя улыбка способна растопить любой мой плохой день. Ты невероятно красивая, но дело даже не только в этом. Меня до глубины души трогает твоя искренность, твоя забота, твой смех и то тепло, которое ты излучаешь. Рядом с тобой я чувствую такой уют и такое спокойствие, которого не мог найти больше нигде. Мне с тобой так хорошо, так легко и так правильно, что иногда просто перехватывает дыхание от счастья.</p>
+          <p>Я хочу сказать тебе спасибо. Спасибо за твою улыбку, которая делает мой день лучше. Спасибо за твой голос, который я хочу слышать снова и снова, ведь он лучший саундтрек. Ты невероятно красивая — не только внешне, но и внутри. В тебе столько света, тепла и какой-то уютной доброты, что рядом с тобой хочется становиться лучше.</p>
+          <p>Я знаю, что иногда бываю странным. У меня бывают свои тараканы в голове, свои заморочки и настроения. И я безмерно благодарен тебе за то, что ты принимаешь меня таким. За то, что ты не пытаешься меня переделать, а просто любишь. Это для меня значит больше, чем ты можешь себе представить.</p>
+          <p>Спасибо, что выбрала меня. Я хочу беречь тебя, заботиться о тебе и делать так, чтобы ты чувствовала себя самой счастливой. Спасибо, что ты есть у меня. Ты моя Ксюша &lt;3</p>
+          <p style="text-align:center; font-size: 1.4em; color: #be185d; margin: 20px 0;">Тремя словами — я тебя люблю!</p>
+          <p>Жду не дождусь нашего свидания...</p>
+          <div class="letter-sign">Твой Бельчонок &lt;3</div>
+          <img src="Зайка.png" alt="Моя зайка" class="letter-photo" />
+        </div>
+      </div>
+    </div>
+    <button class="btn" onclick="location.reload()" style="margin-top: 24px;">Пройти ещё раз </button>
+  </div>
+</div>
+
+<script>
+/* ============ FLOATING HEARTS BACKGROUND ============ */
+function createFloatingHearts(containerId) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  const emojis = ['💖','💕','💗','💓','✨','🌸','💘'];
+  for (let i = 0; i < 15; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    h.style.left = Math.random()*100 + '%';
+    h.style.fontSize = (16 + Math.random()*24) + 'px';
+    h.style.animationDuration = (8 + Math.random()*10) + 's';
+    h.style.animationDelay = (Math.random()*10) + 's';
+    c.appendChild(h);
+  }
+}
+['heartsBg1','heartsBg2','heartsBg3','heartsBg4','heartsBg5','heartsBg6'].forEach(createFloatingHearts);
+
+/* ============ SCREEN NAVIGATION ============ */
+function goTo(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ============ SCREEN 1: CATCH HEARTS ============ */
+const gameArea = document.getElementById('gameArea');
+const scoreEl = document.getElementById('score');
+const timerEl = document.getElementById('timer');
+const progressFill = document.getElementById('progressFill');
+let score = 0, timeLeft = 30, gameInterval, spawnInterval, gameActive = false;
+const GOAL = 15;
+
+function spawnHeart() {
+  if (!gameActive) return;
+  const h = document.createElement('div');
+  h.className = 'falling';
+  h.style.cssText = 'position:absolute;font-size:36px;cursor:pointer;user-select:none;will-change:transform;';
+  const emojis = ['❤️','💖','💕','💗','💓','💘'];
+  h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+  const areaW = gameArea.clientWidth;
+  h.style.left = Math.random() * (areaW - 50) + 'px';
+  h.style.top = '-50px';
+  gameArea.appendChild(h);
+
+  const duration = 2500 + Math.random()*2000;
+  const startY = -50;
+  const endY = gameArea.clientHeight + 50;
+  const startTime = performance.now();
+  const sway = (Math.random()-0.5) * 80;
+
+  function animate(now) {
+    const t = (now - startTime) / duration;
+    if (t >= 1 || !h.isConnected) { h.remove(); return; }
+    h.style.top = (startY + (endY-startY)*t) + 'px';
+    h.style.transform = `translateX(${Math.sin(t*Math.PI*2)*sway}px)`;
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+
+  const catchHeart = (e) => {
+    e.preventDefault();
+    if (!gameActive) return;
+    score++;
+    scoreEl.textContent = score;
+    progressFill.style.width = Math.min(100, (score/GOAL)*100) + '%';
+    const s = document.createElement('div');
+    s.textContent = '✨';
+    s.style.cssText = 'position:absolute;pointer-events:none;font-size:20px;animation:sparkle 0.6s ease forwards;left:'+h.style.left+';top:'+h.style.top+';';
+    gameArea.appendChild(s);
+    setTimeout(() => s.remove(), 600);
+    h.remove();
+    if (score >= GOAL) endGame(true);
+  };
+  h.addEventListener('click', catchHeart);
+  h.addEventListener('touchstart', catchHeart, {passive: false});
+}
+
+function startGame() {
+  score = 0; timeLeft = 30; gameActive = true;
+  scoreEl.textContent = '0';
+  timerEl.textContent = '30';
+  progressFill.style.width = '0%';
+  gameArea.innerHTML = '';
+  document.getElementById('startGameBtn').style.display = 'none';
+
+  spawnInterval = setInterval(spawnHeart, 500);
+  gameInterval = setInterval(() => {
+    timeLeft--;
+    timerEl.textContent = timeLeft;
+    if (timeLeft <= 0) endGame(false);
+  }, 1000);
+}
+
+function endGame(won) {
+  gameActive = false;
+  clearInterval(spawnInterval);
+  clearInterval(gameInterval);
+  if (won) {
+    gameArea.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;"><div style="font-size:4rem;" class="pop">🎉</div><div style="margin-top:16px;font-size:1.3rem;font-weight:700;">Победа!</div><div style="margin-top:8px;opacity:0.8;">Ты ловишь не только сердечки... 😉</div></div>';
+    setTimeout(() => goTo('screen2'), 2200);
+  } else {
+    gameArea.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;"><div style="font-size:4rem;">😅</div><div style="margin-top:16px;font-size:1.1rem;font-weight:700;">Не хватило времени!</div><div style="margin-top:8px;opacity:0.8;">Но я верю в тебя — попробуй ещё раз 💪</div></div>';
+    setTimeout(() => {
+      document.getElementById('startGameBtn').style.display = 'inline-block';
+      document.getElementById('startGameBtn').textContent = 'Попробовать снова 🔄';
+    }, 1500);
+  }
+}
+document.getElementById('startGameBtn').addEventListener('click', startGame);
+
+/* ============ SCREEN 2: LOGIN ============ */
+const loginInput = document.getElementById('loginInput');
+const passwordInput = document.getElementById('passwordInput');
+const loginError = document.getElementById('loginError');
+const loginHint = document.getElementById('loginHint');
+
+function checkLogin(u, p) {
+  const uOk = u.trim().toLowerCase() === 'машуля';
+  const pNorm = p.trim().toLowerCase().replace(/\s+/g, ' ');
+  const pOk = pNorm === '9 октября 2026' ||
+              pNorm === '9 октября 2026 года' ||
+              pNorm === '09.10.2026' ||
+              pNorm === '9.10.2026' ||
+              pNorm === '09 октября 2026';
+  return { uOk, pOk };
+}
+
+document.getElementById('loginBtn').addEventListener('click', () => {
+  const u = loginInput.value;
+  const p = passwordInput.value;
+  const { uOk, pOk } = checkLogin(u, p);
+  
+  if (!uOk && !pOk) {
+    loginHint.classList.add('show');
+    loginError.textContent = '🙈 И логин, и пароль не те...';
+    document.querySelector('#screen2 .card').classList.add('shake');
+    setTimeout(() => document.querySelector('#screen2 .card').classList.remove('shake'), 400);
+  } else if (!uOk) {
+    loginHint.classList.add('show');
+    loginError.textContent = 'Логин другой... Как я тебя называю? ';
+    document.querySelector('#screen2 .card').classList.add('shake');
+    setTimeout(() => document.querySelector('#screen2 .card').classList.remove('shake'), 400);
+  } else if (!pOk) {
+    loginHint.classList.add('show');
+    loginError.textContent = '💔 Пароль неверный... Вспомни нашу дату! (Д месяц ГГГГ)';
+    document.querySelector('#screen2 .card').classList.add('shake');
+    setTimeout(() => document.querySelector('#screen2 .card').classList.remove('shake'), 400);
+  } else {
+    loginError.textContent = '';
+    loginError.innerHTML = '<span style="color:#bbf7d0;">✅ Добро пожаловать, Машуля! 💖</span>';
+    setTimeout(() => goTo('screen3'), 1200);
+  }
+});
+
+[loginInput, passwordInput].forEach(i => i.addEventListener('keypress', e => {
+  if (e.key === 'Enter') document.getElementById('loginBtn').click();
+}));
+
+/* ============ SCREEN 3: WHERE WE GO ============ */
+const chatContainer = document.getElementById('chatContainer');
+const whereInput = document.getElementById('whereInput');
+
+function addBubble(text, who) {
+  const b = document.createElement('div');
+  b.className = 'chat-bubble ' + who;
+  b.textContent = text;
+  chatContainer.appendChild(b);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+document.getElementById('whereBtn').addEventListener('click', () => {
+  const val = whereInput.value.trim();
+  if (!val) {
+    whereInput.classList.add('shake');
+    setTimeout(() => whereInput.classList.remove('shake'), 400);
+    return;
+  }
+  addBubble(val, 'user');
+  whereInput.value = '';
+  whereInput.disabled = true;
+  document.getElementById('whereBtn').disabled = true;
+
+  setTimeout(() => {
+    addBubble('Интересный вариант! 😏', 'bot');
+  }, 1500);
+  setTimeout(() => {
+    addBubble('Но я уже сам всё выбрал 😊', 'bot');
+  }, 3500);
+  setTimeout(() => {
+    addBubble('Смотри, какой маршрут я составил... 🗺️', 'bot');
+  }, 5500);
+  setTimeout(() => goTo('screen4'), 7500);
+});
+
+whereInput.addEventListener('keypress', e => {
+  if (e.key === 'Enter') document.getElementById('whereBtn').click();
+});
+
+/* ============ SCREEN 4: MAP ============ */
+function startMapAnimation() {
+  const path = document.getElementById('mapPath');
+  path.classList.add('animate');
+  const points = ['pt1','pt2','pt3','pt4','pt5'];
+  const msgs = [
+    ' Встречаемся в 11:00 у скамеечки перед твоим домом',
+    'Ой, не покажу... ',
+    'Тут тоже секрет 🤫',
+    'И здесь сюрприз 🎁',
+    'А финал — вообще тайна! '
+  ];
+  const mapMsg = document.getElementById('mapMsg');
+
+  points.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('show');
+      mapMsg.textContent = msgs[i];
+      mapMsg.style.opacity = '1';
+    }, 1600 + i * 1600);
+  });
+
+  setTimeout(() => {
+    document.getElementById('mapNextBtn').style.opacity = '1';
+    document.getElementById('mapNextBtn').style.pointerEvents = 'auto';
+  }, 10000);
+}
+
+document.getElementById('mapNextBtn').addEventListener('click', () => {
+  goTo('screen5');
+  setTimeout(startBringAnimation, 400);
+});
+
+/* ============ SCREEN 5: WHAT TO BRING ============ */
+function startBringAnimation() {
+  const items = document.querySelectorAll('.bring-item');
+  items.forEach((it, i) => {
+    setTimeout(() => it.classList.add('show'), i * 500);
+  });
+}
+
+document.getElementById('bringNextBtn').addEventListener('click', () => {
+  goTo('screen6');
+});
+
+/* ============ SCREEN 6: QUESTION + TELEPORT + LETTER ============ */
+const btnYes = document.getElementById('btnYes');
+const btnNo = document.getElementById('btnNo');
+const questionWrap = document.getElementById('questionWrap');
+const letterScene = document.getElementById('letterScene');
+const envelope = document.getElementById('envelope');
+
+// Teleport "No" button
+btnNo.addEventListener('click', (e) => {
+  e.preventDefault();
+  const screen = document.getElementById('screen6');
+  const maxX = screen.clientWidth - btnNo.offsetWidth - 20;
+  const maxY = screen.clientHeight - btnNo.offsetHeight - 20;
+  const newX = Math.random() * maxX;
+  const newY = Math.random() * maxY;
+  btnNo.style.position = 'fixed';
+  btnNo.style.left = newX + 'px';
+  btnNo.style.top = newY + 'px';
+  btnNo.style.zIndex = '100';
+  btnNo.style.transition = 'all 0.3s ease';
+  
+  const messages = ['Не-а! 😜', 'Попробуй ещё! 🙈', 'Не убежишь! 💕', 'Только да! 💚', 'Жми зелёную! 😊'];
+  btnNo.textContent = messages[Math.floor(Math.random() * messages.length)];
+});
+
+// "Yes" button - heart rain + letter
+btnYes.addEventListener('click', () => {
+  // Heart rain (blue and green)
+  const heartEmojis = ['💙', '💚', '', '💠', ''];
+  for (let i = 0; i < 100; i++) {
+    setTimeout(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart-rain';
+      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (20 + Math.random() * 30) + 'px';
+      heart.style.animationDuration = (2 + Math.random() * 2) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }, i * 30);
+  }
+  
+  // Hide question, show letter scene
+  setTimeout(() => {
+    questionWrap.style.display = 'none';
+    letterScene.style.display = 'block';
+    
+    // Open envelope after a moment
+    setTimeout(() => {
+      envelope.classList.add('open');
+    }, 500);
+  }, 2500);
+});
+
+/* ============ AUTO-START MAP WHEN SCREEN 4 ACTIVE ============ */
+const observer = new MutationObserver(() => {
+  if (document.getElementById('screen4').classList.contains('active')) {
+    setTimeout(startMapAnimation, 500);
+  }
+});
+observer.observe(document.getElementById('screen4'), { attributes: true, attributeFilter: ['class'] });
+</script>
+</body>
+</html>
+
