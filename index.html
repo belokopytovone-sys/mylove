@@ -363,11 +363,11 @@
   .letter-content {
     background: #fffef5;
     color: #78350f;
-    padding: clamp(20px, 4vw, 32px);
+    padding: clamp(16px, 3vw, 28px);
     border-radius: 8px;
     font-family: 'Caveat', cursive;
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    line-height: 1.7;
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    line-height: 1.6;
     max-height: 0;
     overflow: hidden;
     transition: max-height 2s ease, opacity 1s ease;
@@ -378,23 +378,23 @@
     max-height: 2000px;
     opacity: 1;
   }
-  .letter-content p { margin-bottom: 12px; text-align: left; }
+  .letter-content p { margin-bottom: 10px; text-align: left; }
   .letter-content .letter-title {
     text-align: center;
-    font-size: clamp(1.4rem, 3.5vw, 1.8rem);
-    margin-bottom: 16px;
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    margin-bottom: 12px;
     color: #be185d;
   }
   .letter-content .letter-sign {
     text-align: right;
-    margin-top: 20px;
-    font-size: 1.3em;
+    margin-top: 16px;
+    font-size: 1.2em;
     color: #be185d;
   }
   .letter-photo {
     width: 100%;
-    max-width: 280px;
-    margin: 20px auto 0;
+    max-width: 240px;
+    margin: 16px auto 0;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     display: block;
@@ -433,6 +433,7 @@
     .map-dot { width: 26px; height: 26px; font-size: 12px; }
     .chat-bubble { max-width: 90%; }
     .question-buttons { flex-direction: column; align-items: center; }
+    .letter-content { font-size: 0.8rem; }
   }
   @media (min-width: 768px) and (max-width: 1024px) {
     .card { max-width: 560px; }
@@ -488,7 +489,7 @@
   </div>
   <div class="chat-input-wrap">
     <input type="text" id="whereInput" placeholder="Напиши свой вариант..." />
-    <button class="btn" id="whereBtn">📤</button>
+    <button class="btn" id="whereBtn"></button>
   </div>
 </div>
 
@@ -532,7 +533,7 @@
 <div class="screen" id="screen5">
   <div class="bg bg-5"></div>
   <div class="hearts-bg" id="heartsBg5"></div>
-  <h1>🎒 Что взять с собой?</h1>
+  <h1> Что взять с собой?</h1>
   <p style="margin-bottom: 20px;">Список обязательных вещей для нашего приключения:</p>
   <ul class="bring-list" id="bringList">
     <li class="bring-item"><div class="bring-icon">🚌</div><div class="bring-text"><b>Проездной</b> — чтобы мы никуда не опоздали</div></li>
@@ -541,7 +542,7 @@
     <li class="bring-item"><div class="bring-icon">💅</div><div class="bring-text"><b>Красиво выглядеть</b> — то есть как всегда, ты же у меня самая красивая 💖</div></li>
     <li class="bring-item"><div class="bring-icon">✨</div><div class="bring-text"><b>И ничего больше!</b> Всё остальное я беру на себя</div></li>
   </ul>
-  <button class="btn" id="bringNextBtn">Я готова! Поехали 🚀</button>
+  <button class="btn" id="bringNextBtn">Я готова! Поехали </button>
 </div>
 
 <!-- ============ SCREEN 6: QUESTION + LETTER ============ -->
@@ -571,7 +572,7 @@
           <p>Я хочу сказать тебе спасибо. Спасибо за твою улыбку, которая делает мой день лучше. Спасибо за твой голос, который я хочу слышать снова и снова, ведь он лучший саундтрек. Ты невероятно красивая — не только внешне, но и внутри. В тебе столько света, тепла и какой-то уютной доброты, что рядом с тобой хочется становиться лучше.</p>
           <p>Я знаю, что иногда бываю странным. У меня бывают свои тараканы в голове, свои заморочки и настроения. И я безмерно благодарен тебе за то, что ты принимаешь меня таким. За то, что ты не пытаешься меня переделать, а просто любишь. Это для меня значит больше, чем ты можешь себе представить.</p>
           <p>Спасибо, что выбрала меня. Я хочу беречь тебя, заботиться о тебе и делать так, чтобы ты чувствовала себя самой счастливой. Спасибо, что ты есть у меня. Ты моя Ксюша &lt;3</p>
-          <p style="text-align:center; font-size: 1.4em; color: #be185d; margin: 20px 0;">Тремя словами — я тебя люблю!</p>
+          <p style="text-align:center; font-size: 1.3em; color: #be185d; margin: 16px 0;">Тремя словами — я тебя люблю!</p>
           <p>Жду не дождусь нашего свидания...</p>
           <div class="letter-sign">Твой Бельчонок &lt;3</div>
           <img src="Зайка.png" alt="Моя зайка" class="letter-photo" />
@@ -685,7 +686,7 @@ function endGame(won) {
     gameArea.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;"><div style="font-size:4rem;" class="pop">🎉</div><div style="margin-top:16px;font-size:1.3rem;font-weight:700;">Победа!</div><div style="margin-top:8px;opacity:0.8;">Ты ловишь не только сердечки... 😉</div></div>';
     setTimeout(() => goTo('screen2'), 2200);
   } else {
-    gameArea.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;"><div style="font-size:4rem;">😅</div><div style="margin-top:16px;font-size:1.1rem;font-weight:700;">Не хватило времени!</div><div style="margin-top:8px;opacity:0.8;">Но я верю в тебя — попробуй ещё раз 💪</div></div>';
+    gameArea.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;"><div style="font-size:4rem;"></div><div style="margin-top:16px;font-size:1.1rem;font-weight:700;">Не хватило времени!</div><div style="margin-top:8px;opacity:0.8;">Но я верю в тебя — попробуй ещё раз 💪</div></div>';
     setTimeout(() => {
       document.getElementById('startGameBtn').style.display = 'inline-block';
       document.getElementById('startGameBtn').textContent = 'Попробовать снова 🔄';
@@ -848,7 +849,7 @@ btnNo.addEventListener('click', (e) => {
   btnNo.style.zIndex = '100';
   btnNo.style.transition = 'all 0.3s ease';
   
-  const messages = ['Не-а! 😜', 'Попробуй ещё! 🙈', 'Не убежишь! 💕', 'Только да! 💚', 'Жми зелёную! 😊'];
+  const messages = ['Не-а! 😜', 'Попробуй ещё! 🙈', 'Не убежишь! 💕', 'Только да! 💚', 'Жми зелёную! '];
   btnNo.textContent = messages[Math.floor(Math.random() * messages.length)];
 });
 
@@ -891,4 +892,3 @@ observer.observe(document.getElementById('screen4'), { attributes: true, attribu
 </script>
 </body>
 </html>
-
