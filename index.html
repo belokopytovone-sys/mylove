@@ -11,18 +11,25 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #e0e0e0;
-            overflow-x: hidden;
             min-height: 100vh;
         }
 
         .screen {
             display: none;
             min-height: 100vh;
+            width: 100%;
             padding: 20px;
             animation: fadeIn 0.8s ease-in;
+            position: relative;
         }
 
         .screen.active {
@@ -279,9 +286,9 @@
             75% { transform: translateX(10px); }
         }
 
-        /* Экран 3 - Зелёный с мятным */
+        /* Экран 3 - Тёмно-зелёный с бирюзовым */
         #screen3 {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 50%, #00d2ff 100%);
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
         }
 
         #screen3::before {
@@ -289,7 +296,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            background: radial-gradient(circle at 30% 30%, rgba(0, 210, 255, 0.2) 0%, transparent 50%);
             animation: float 6s ease-in-out infinite;
         }
 
@@ -299,9 +306,9 @@
         }
 
         .chat-container {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(0, 210, 255, 0.4);
             border-radius: 25px;
             padding: 20px;
             width: 100%;
@@ -310,20 +317,20 @@
             overflow-y: auto;
             position: relative;
             z-index: 1;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
         .chat-header {
             text-align: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 2px solid rgba(0, 210, 255, 0.4);
         }
 
         .chat-header h2 {
-            color: white;
+            color: #00d2ff;
             font-size: 2rem;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 10px rgba(0, 210, 255, 0.5);
         }
 
         .message {
@@ -352,7 +359,7 @@
             border-radius: 18px;
             max-width: 80%;
             word-wrap: break-word;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .message.user .message-bubble {
@@ -362,7 +369,7 @@
         }
 
         .message.bot .message-bubble {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
             color: white;
             border-bottom-left-radius: 5px;
             animation: botMessage 0.5s ease-out;
@@ -391,38 +398,48 @@
         .chat-input input {
             flex: 1;
             padding: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(0, 210, 255, 0.4);
             border-radius: 25px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             color: white;
             font-size: 1rem;
         }
 
         .chat-input input:focus {
             outline: none;
-            border-color: white;
-            background: rgba(255, 255, 255, 0.2);
+            border-color: #00d2ff;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .chat-input input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .chat-input button {
             padding: 12px 25px;
             border: none;
             border-radius: 25px;
-            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
-            color: #11998e;
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            color: white;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
         }
 
-        .chat-input button:hover {
+        .chat-input button:hover:not(:disabled) {
             transform: scale(1.1);
-            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.5);
         }
 
-        /* Экран 4 - Оранжевый с розовым */
+        .chat-input button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Экран 4 - Тёмно-фиолетовый с розовым */
         #screen4 {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 50%, #ff9a56 100%);
+            background: linear-gradient(135deg, #1a0033 0%, #4a0e4e 50%, #81267e 100%);
         }
 
         #screen4::before {
@@ -430,7 +447,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+            background: radial-gradient(circle at 70% 30%, rgba(255, 105, 180, 0.3) 0%, transparent 50%);
             animation: rotate 10s linear infinite;
         }
 
@@ -440,24 +457,24 @@
         }
 
         .map-container {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 105, 180, 0.5);
             border-radius: 25px;
             padding: 30px;
             max-width: 500px;
             width: 100%;
             position: relative;
             z-index: 1;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
         .map-container h2 {
-            color: white;
+            color: #ff69b4;
             margin-bottom: 30px;
             font-size: 2rem;
             text-align: center;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 10px rgba(255, 105, 180, 0.5);
         }
 
         .route-svg {
@@ -866,15 +883,15 @@
                 <!-- Градиент для линии -->
                 <defs>
                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#fff;stop-opacity:1" />
+                        <stop offset="0%" style="stop-color:#ff69b4;stop-opacity:1" />
                         <stop offset="50%" style="stop-color:#ffd700;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#fff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ff69b4;stop-opacity:1" />
                     </linearGradient>
                 </defs>
 
                 <!-- Точки маршрута -->
                 <g class="route-point" style="animation-delay: 0.5s">
-                    <circle cx="50" cy="50" r="12" fill="#fff" stroke="#ffd700" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="12" fill="#ff69b4" stroke="#ffd700" stroke-width="3"/>
                     <text x="70" y="55" fill="#fff" font-size="14" font-weight="bold">11:00 у скамейки</text>
                 </g>
                 <g class="route-point" style="animation-delay: 1s">
@@ -882,7 +899,7 @@
                     <text x="140" y="125" fill="#fff" font-size="12">секрет 🤫</text>
                 </g>
                 <g class="route-point" style="animation-delay: 1.5s">
-                    <circle cx="180" cy="180" r="10" fill="#fff"/>
+                    <circle cx="180" cy="180" r="10" fill="#ff69b4"/>
                     <text x="200" y="185" fill="#fff" font-size="12">не покажу 😏</text>
                 </g>
                 <g class="route-point" style="animation-delay: 2s">
@@ -890,11 +907,11 @@
                     <text x="260" y="205" fill="#fff" font-size="12">и тут тоже 🎁</text>
                 </g>
                 <g class="route-point" style="animation-delay: 2.5s">
-                    <circle cx="300" cy="250" r="10" fill="#fff"/>
+                    <circle cx="300" cy="250" r="10" fill="#ff69b4"/>
                     <text x="320" y="255" fill="#fff" font-size="12">а это сюрприз ✨</text>
                 </g>
                 <g class="route-point" style="animation-delay: 3s">
-                    <circle cx="350" cy="350" r="12" fill="#ffd700" stroke="#fff" stroke-width="3"/>
+                    <circle cx="350" cy="350" r="12" fill="#ffd700" stroke="#ff69b4" stroke-width="3"/>
                     <text x="250" y="380" fill="#fff" font-size="14" font-weight="bold">финал 💛</text>
                 </g>
             </svg>
@@ -1071,9 +1088,11 @@
             'Но я уже сам всё выбрал 😊',
             'Смотри, какой маршрут я составил... 👀'
         ];
-        let responseIndex = 0;
+        let chatActive = true;
 
         function sendChatMessage() {
+            if (!chatActive) return;
+            
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             
@@ -1083,21 +1102,24 @@
             addMessage(message, 'user');
             input.value = '';
             
-            // Добавляем ответ бота через задержку
-            setTimeout(() => {
-                if (responseIndex < botResponses.length) {
-                    addMessage(botResponses[responseIndex], 'bot');
-                    responseIndex++;
+            // Блокируем ввод
+            chatActive = false;
+            input.disabled = true;
+            document.querySelector('.chat-input button').disabled = true;
+            
+            // Показываем ответы бота последовательно
+            let delay = 1000;
+            botResponses.forEach((response, index) => {
+                setTimeout(() => {
+                    addMessage(response, 'bot');
                     
-                    // Переход к следующему экрану после последнего ответа
-                    if (responseIndex === botResponses.length) {
-                        setTimeout(() => {
-                            addMessage('Готов посмотреть? 💙', 'bot');
-                            setTimeout(() => goToScreen(4), 2000);
-                        }, 1500);
+                    // После последнего ответа переходим на следующий экран
+                    if (index === botResponses.length - 1) {
+                        setTimeout(() => goToScreen(4), 2000);
                     }
-                }
-            }, 1000);
+                }, delay);
+                delay += 1500;
+            });
         }
 
         function addMessage(text, type) {
