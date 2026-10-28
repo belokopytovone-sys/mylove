@@ -4,11 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Для моей Машули 💙💚</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/caveat@latest/cyrillic-400-normal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/caveat@latest/cyrillic-700-normal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/dancing-script@latest/cyrillic-400-normal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/dancing-script@latest/cyrillic-700-normal.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        *::-webkit-scrollbar {
+            display: none;
         }
 
         html, body {
@@ -177,6 +187,7 @@
             pointer-events: none;
             animation: floatUp 2s ease-out forwards;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            z-index: 100;
         }
 
         @keyframes floatUp {
@@ -572,9 +583,10 @@
             line-height: 1.5;
         }
 
-        /* Экран 6 - Красный с золотом */
+        /* Экран 6 - Красный с золотом (без рамок и полей) */
         #screen6 {
             background: linear-gradient(135deg, #f5576c 0%, #ff6b9d 50%, #ffd700 100%);
+            text-align: center;
         }
 
         #screen6::before {
@@ -586,34 +598,43 @@
             animation: pulse 3s ease-in-out infinite;
         }
 
-        .game-container {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 215, 0, 0.5);
-            border-radius: 25px;
-            padding: 50px;
-            max-width: 500px;
-            width: 100%;
+        .game-content {
             position: relative;
             z-index: 1;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
         }
 
-        .game-container h2 {
+        .game-content h2 {
             color: white;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             font-size: 2.5rem;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .game-question {
+            color: white;
+            font-size: 1.4rem;
+            margin-bottom: 50px;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-family: 'Caveat', cursive;
+            font-weight: 700;
         }
 
         .game-buttons {
             display: flex;
-            gap: 30px;
+            gap: 40px;
             justify-content: center;
+            align-items: center;
             flex-wrap: wrap;
             position: relative;
-            min-height: 100px;
+            min-height: 120px;
+            width: 100%;
+            max-width: 500px;
         }
 
         .btn-yes {
@@ -627,6 +648,9 @@
             transition: all 0.3s;
             box-shadow: 0 5px 20px rgba(17, 153, 142, 0.4);
             animation: buttonPulse 2s ease-in-out infinite;
+            font-weight: 700;
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
         }
 
         @keyframes buttonPulse {
@@ -648,9 +672,15 @@
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s;
-            position: relative;
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            font-weight: 700;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
         }
 
+        /* Водопад сердечек */
         .waterfall {
             position: fixed;
             top: 0;
@@ -660,32 +690,45 @@
             pointer-events: none;
             z-index: 1000;
             display: none;
+            overflow: hidden;
         }
 
         .waterfall.active {
             display: block;
         }
 
-        .paint-drop {
+        .heart-drop {
             position: absolute;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            animation: paintFall 2s ease-in forwards;
+            top: -100px;
+            font-size: 2rem;
+            animation: heartFall linear forwards;
+            filter: drop-shadow(0 0 10px currentColor);
         }
 
-        @keyframes paintFall {
+        @keyframes heartFall {
             0% {
-                transform: translateY(-100vh) scale(0);
+                transform: translateY(0) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(10vh) rotate(20deg) scale(1);
+            }
+            90% {
                 opacity: 1;
             }
             100% {
-                transform: translateY(100vh) scale(3);
-                opacity: 0.8;
+                transform: translateY(110vh) rotate(720deg) scale(1.5);
+                opacity: 0;
             }
         }
 
-        /* Экран 7 - Нежный розовый */
+        @keyframes heartSway {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(30px); }
+        }
+
+        /* Экран 7 - Нежный розовый с красивым шрифтом */
         #screen7 {
             background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #ff9a9e 100%);
             padding: 40px 20px;
@@ -701,9 +744,9 @@
         }
 
         .letter-container {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.6);
             border-radius: 25px;
             padding: 40px;
             max-width: 600px;
@@ -715,6 +758,9 @@
         }
 
         .letter-container h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            font-weight: 700;
             background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
             background-size: 200% 200%;
             -webkit-background-clip: text;
@@ -723,20 +769,35 @@
             animation: shimmer 3s ease-in-out infinite;
             text-align: center;
             margin-bottom: 30px;
-            font-size: 2.2rem;
-            font-family: 'Georgia', serif;
         }
 
         .letter-content {
-            font-family: 'Georgia', serif;
-            color: #333;
-            font-size: 1.1rem;
+            font-family: 'Caveat', cursive;
+            color: #2c2c2c;
+            font-size: 1.5rem;
+            font-weight: 400;
             margin-bottom: 30px;
+            line-height: 1.6;
         }
 
         .letter-content p {
             margin-bottom: 20px;
             text-align: justify;
+        }
+
+        .letter-content strong {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.7rem;
+        }
+
+        .letter-signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: right;
+            color: #764ba2;
+            margin-top: 20px;
         }
 
         .letter-photo {
@@ -764,7 +825,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 1000;
+            z-index: 1001;
             transition: all 0.3s;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
@@ -780,7 +841,7 @@
                 font-size: 2.5rem;
             }
 
-            .login-box, .checklist, .game-container, .map-container {
+            .login-box, .checklist, .map-container {
                 padding: 25px;
             }
 
@@ -793,26 +854,29 @@
             }
 
             .letter-content {
-                font-size: 1rem;
+                font-size: 1.3rem;
             }
-        }
 
-        /* Скроллбар */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
+            .letter-container h2 {
+                font-size: 2.2rem;
+            }
 
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-        }
+            .game-content h2 {
+                font-size: 2rem;
+            }
 
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 10px;
-        }
+            .game-question {
+                font-size: 1.2rem;
+            }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #764ba2, #f093fb);
+            .btn-yes, .btn-no {
+                font-size: 1.5rem;
+                padding: 15px 35px;
+            }
+
+            .game-buttons {
+                gap: 25px;
+            }
         }
     </style>
 </head>
@@ -939,14 +1003,14 @@
         </div>
     </div>
 
-    <!-- Экран 6: Игра -->
+    <!-- Экран 6: Игра (без рамок и полей) -->
     <div id="screen6" class="screen">
-        <div class="game-container">
+        <div class="game-content">
             <h2>Последний вопрос</h2>
-            <p style="margin-bottom: 30px; color: white; font-size: 1.2rem;">Ты идёшь со мной на свидание?</p>
+            <p class="game-question">Ты идёшь со мной на свидание?</p>
             <div class="game-buttons">
                 <button class="btn-yes" onclick="showWaterfall()">Да 💙</button>
-                <button class="btn-no" id="noButton" onmouseover="teleportNoButton()">Нет</button>
+                <button class="btn-no" id="noButton">Нет</button>
             </div>
         </div>
         <div class="waterfall" id="waterfall"></div>
@@ -969,13 +1033,13 @@
                 
                 <p>Я знаю, что иногда бываю странным. У меня бывают свои тараканы в голове, свои заморочки и настроения. И я безмерно благодарен тебе за то, что ты принимаешь меня таким. За то, что ты не пытаешься меня переделать, а просто любишь. Это для меня значит больше, чем ты можешь себе представить.</p>
                 
-                <p>Спасибо, что выбрала меня. Я хочу беречь тебя, заботиться о тебе и делать так, чтобы ты чувствовала себя самой счастливой. Спасибо, что ты есть у меня. Ты моя Миса <3</p>
+                <p>Спасибо, что выбрала меня. Я хочу беречь тебя, заботиться о тебе и делать так, чтобы ты чувствовала себя самой счастливой. Спасибо, что ты есть у меня. Ты моя Миса &lt;3</p>
                 
                 <p><strong>Тремя словами — я тебя люблю!</strong></p>
                 
                 <p>Жду не дождусь нашего свидания...</p>
                 
-                <p style="text-align: right; font-weight: bold;">Твой Бельчонок <3</p>
+                <p class="letter-signature">Твой Бельчонок &lt;3</p>
             </div>
             <img src="Зайка.png" alt="Зайка" class="letter-photo">
         </div>
@@ -1003,7 +1067,8 @@
         ];
 
         // Управление музыкой
-        document.getElementById('musicControl').addEventListener('click', function() {
+        document.getElementById('musicControl').addEventListener('click', function(e) {
+            e.stopPropagation();
             if (musicPlaying) {
                 bgMusic.pause();
                 this.textContent = '🎵';
@@ -1098,22 +1163,18 @@
             
             if (!message) return;
             
-            // Добавляем сообщение пользователя
             addMessage(message, 'user');
             input.value = '';
             
-            // Блокируем ввод
             chatActive = false;
             input.disabled = true;
             document.querySelector('.chat-input button').disabled = true;
             
-            // Показываем ответы бота последовательно
             let delay = 1000;
             botResponses.forEach((response, index) => {
                 setTimeout(() => {
                     addMessage(response, 'bot');
                     
-                    // После последнего ответа переходим на следующий экран
                     if (index === botResponses.length - 1) {
                         setTimeout(() => goToScreen(4), 2000);
                     }
@@ -1137,62 +1198,94 @@
             }
         }
 
-        // Экран 6: Телепортация кнопки "Нет"
+        // Экран 6: Телепортация кнопки "Нет" (работает и на мобильных)
         const noTexts = ['то что не попадёшь', 'не убежишь', 'не получиться', 'не-а', 'только да', 'на зелёную', 'а ну', 'я ща обижусь', 'ну же 💙'];
         let noClickCount = 0;
+        const noButton = document.getElementById('noButton');
 
         function teleportNoButton() {
-            const btn = document.getElementById('noButton');
-            const container = btn.parentElement;
-            const containerRect = container.getBoundingClientRect();
+            const btn = noButton;
+            const screen = document.getElementById('screen6');
+            const screenRect = screen.getBoundingClientRect();
             
-            // Случайная позиция внутри контейнера
-            const maxX = containerRect.width - btn.offsetWidth;
-            const maxY = containerRect.height - btn.offsetHeight;
+            const btnWidth = btn.offsetWidth;
+            const btnHeight = btn.offsetHeight;
             
-            const randomX = Math.random() * maxX;
-            const randomY = Math.random() * maxY;
+            const maxX = screenRect.width - btnWidth - 20;
+            const maxY = screenRect.height - btnHeight - 20;
             
-            btn.style.position = 'absolute';
+            const randomX = Math.random() * maxX + 10;
+            const randomY = Math.random() * maxY + 10;
+            
+            btn.style.position = 'fixed';
             btn.style.left = randomX + 'px';
             btn.style.top = randomY + 'px';
-            btn.style.transition = 'all 0.3s';
+            btn.style.margin = '0';
+            btn.style.transition = 'all 0.3s ease-out';
+            btn.style.zIndex = '10';
             
-            // Меняем текст
             btn.textContent = noTexts[noClickCount % noTexts.length];
             noClickCount++;
         }
 
-        // Экран 6: Водопад красок
+        // Поддержка и мыши, и тач-событий
+        noButton.addEventListener('mouseenter', teleportNoButton);
+        noButton.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            teleportNoButton();
+        });
+        noButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            teleportNoButton();
+        });
+        noButton.addEventListener('focus', teleportNoButton);
+
+        // Экран 6: Красивый водопад из сердечек
         function showWaterfall() {
             const waterfall = document.getElementById('waterfall');
             waterfall.classList.add('active');
             
-            const colors = ['#4a90e2', '#67d4a8', '#357abd', '#2ecc71', '#5dade2', '#11998e', '#38ef7d'];
+            // В основном синие и зелёные сердечки
+            const hearts = ['💙', '💚', '💙', '💙', '💚', '💙', '💙', '💚', '💙', '💙'];
+            const colors = ['#4a90e2', '#67d4a8', '#357abd', '#2ecc71', '#5dade2', '#11998e', '#38ef7d', '#1e90ff', '#00bfff', '#20b2aa'];
             
-            for (let i = 0; i < 50; i++) {
+            // Создаём много сердечек для красивого эффекта
+            const totalHearts = 80;
+            
+            for (let i = 0; i < totalHearts; i++) {
                 setTimeout(() => {
-                    const drop = document.createElement('div');
-                    drop.className = 'paint-drop';
-                    drop.style.left = Math.random() * 100 + '%';
-                    drop.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    drop.style.animationDelay = Math.random() * 0.5 + 's';
-                    waterfall.appendChild(drop);
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-drop';
                     
-                    setTimeout(() => drop.remove(), 2500);
-                }, i * 50);
+                    // 80% синих/зелёных, 20% других
+                    if (Math.random() < 0.8) {
+                        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    } else {
+                        heart.textContent = ['💙', '💚', '💎', '🌊'][Math.floor(Math.random() * 4)];
+                    }
+                    
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    heart.style.color = color;
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+                    heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    heart.style.animationDelay = (Math.random() * 0.3) + 's';
+                    
+                    waterfall.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 4500);
+                }, i * 40);
             }
             
             // Переход к письму
             setTimeout(() => {
                 waterfall.classList.remove('active');
                 goToScreen(7);
-            }, 3000);
+            }, 4000);
         }
 
         // Инициализация
         window.addEventListener('load', function() {
-            // Создаём начальные эмодзи
             for (let i = 0; i < 10; i++) {
                 setTimeout(createFallingEmoji, i * 200);
             }
