@@ -2,796 +2,1179 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Особое приглашение ✨</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Marck+Script&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        darkbg: '#0B132B',
-                        cardbg: '#1C2541',
-                        accentblue: '#3A506B',
-                        emeraldgreen: '#48E5C2',
-                        tealgreen: '#2A9D8F',
-                        lavender: '#C77DFF',
-                    },
-                    fontFamily: {
-                        sans: ['Montserrat', 'sans-serif'],
-                        hand: ['Marck Script', 'cursive'],
-                        caveat: ['Caveat', 'cursive'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Canvas Confetti CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для моей Машули 💙💚</title>
     <style>
-        /* Custom Styles & Glassmorphism Effects */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #0B132B;
-            color: #FFFFFF;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e0e0e0;
             overflow-x: hidden;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
+            min-height: 100vh;
         }
 
-        .glass-panel {
-            background: rgba(28, 37, 65, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(72, 229, 194, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-in;
         }
 
-        .glow-btn {
-            background: linear-gradient(135deg, #2A9D8F 0%, #48E5C2 100%);
-            box-shadow: 0 0 15px rgba(72, 229, 194, 0.4);
-            transition: all 0.3s ease;
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .glow-btn:active {
-            transform: scale(0.96);
-            box-shadow: 0 0 25px rgba(72, 229, 194, 0.7);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .glow-text {
-            text-shadow: 0 0 10px rgba(72, 229, 194, 0.5);
+        /* Экран 1 - Розово-фиолетовый */
+        #screen1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Falling Emoji Animations */
-        .falling-item {
+        #screen1::before {
+            content: '';
             position: absolute;
-            user-select: none;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .emoji-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .falling-emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: fall linear;
+            pointer-events: all;
             cursor: pointer;
-            z-index: 10;
-            will-change: transform;
-            animation: fall linear infinite;
+            transition: transform 0.2s;
+        }
+
+        .falling-emoji:hover {
+            transform: scale(1.3) rotate(10deg);
         }
 
         @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .start-content {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .start-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #fff, #ffd1ff, #fff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%);
+            color: white;
+            box-shadow: 0 5px 20px rgba(240, 147, 251, 0.4);
+            animation: buttonGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes buttonGlow {
+            0%, 100% { box-shadow: 0 5px 20px rgba(240, 147, 251, 0.4); }
+            50% { box-shadow: 0 8px 30px rgba(245, 87, 108, 0.6); }
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 40px rgba(245, 87, 108, 0.8);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+
+        .compliment {
+            position: absolute;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fff, #ffd1ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            pointer-events: none;
+            animation: floatUp 2s ease-out forwards;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes floatUp {
             0% {
-                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1.5);
+            }
+        }
+
+        /* Экран 2 - Синий с золотом */
+        #screen2 {
+            background: linear-gradient(135deg, #0c3547 0%, #1e5799 50%, #2989d8 100%);
+        }
+
+        #screen2::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                        inset 0 0 20px rgba(255, 215, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-box h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 2s ease-in-out infinite;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffd700;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            display: none;
+            text-align: center;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Экран 3 - Зелёный с мятным */
+        #screen3 {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 50%, #00d2ff 100%);
+        }
+
+        #screen3::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 20px); }
+        }
+
+        .chat-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 600px;
+            overflow-y: auto;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .chat-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .chat-header h2 {
+            color: white;
+            font-size: 2rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message-bubble {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.bot .message-bubble {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-bottom-left-radius: 5px;
+            animation: botMessage 0.5s ease-out;
+        }
+
+        @keyframes botMessage {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: white;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-input button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            color: #11998e;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .chat-input button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Экран 4 - Оранжевый с розовым */
+        #screen4 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 50%, #ff9a56 100%);
+        }
+
+        #screen4::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .map-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .map-container h2 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .route-svg {
+            width: 100%;
+            height: 400px;
+        }
+
+        .route-point {
+            opacity: 0;
+            animation: appearPoint 0.5s ease-out forwards;
+        }
+
+        @keyframes appearPoint {
+            to { opacity: 1; }
+        }
+
+        .route-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawLine 3s ease-in-out forwards;
+        }
+
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Экран 5 - Фиолетовый с лавандовым */
+        #screen5 {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #d299c2 100%);
+        }
+
+        #screen5::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.4) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 50%);
+            animation: pulse 5s ease-in-out infinite;
+        }
+
+        .checklist {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .checklist h2 {
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            text-align: center;
+        }
+
+        .checklist-item {
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: left;
+            animation: slideIn 0.5s ease-out;
+            transition: all 0.3s;
+        }
+
+        .checklist-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .checklist-item h3 {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-size: 1.3rem;
+        }
+
+        .checklist-item p {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Экран 6 - Красный с золотом */
+        #screen6 {
+            background: linear-gradient(135deg, #f5576c 0%, #ff6b9d 50%, #ffd700 100%);
+        }
+
+        #screen6::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-radius: 25px;
+            padding: 50px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .game-container h2 {
+            color: white;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            min-height: 100px;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(17, 153, 142, 0.4);
+            animation: buttonPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(17, 153, 142, 0.6);
+        }
+
+        .btn-no {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: 2px solid white;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .waterfall {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+
+        .waterfall.active {
+            display: block;
+        }
+
+        .paint-drop {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            animation: paintFall 2s ease-in forwards;
+        }
+
+        @keyframes paintFall {
+            0% {
+                transform: translateY(-100vh) scale(0);
                 opacity: 1;
             }
             100% {
-                transform: translateY(105vh) rotate(360deg);
+                transform: translateY(100vh) scale(3);
                 opacity: 0.8;
             }
         }
 
-        /* Compliment Popup Animation */
-        .compliment-pop {
-            animation: popUpFade 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        /* Экран 7 - Нежный розовый */
+        #screen7 {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #ff9a9e 100%);
+            padding: 40px 20px;
         }
 
-        @keyframes popUpFade {
-            0% { transform: scale(0.3) translateY(20px); opacity: 0; }
-            20% { transform: scale(1.1) translateY(0); opacity: 1; }
-            80% { opacity: 1; transform: scale(1) translateY(-10px); }
-            100% { opacity: 0; transform: scale(0.8) translateY(-30px); }
+        #screen7::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.5) 0%, transparent 50%);
+            animation: float 8s ease-in-out infinite;
         }
 
-        /* Screen Shake for Incorrect Password */
-        .shake-err {
-            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        .letter-container {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
-        @keyframes shake {
-            10%, 90% { transform: translate3d(-2px, 0, 0); }
-            20%, 80% { transform: translate3d(4px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
-            40%, 60% { transform: translate3d(6px, 0, 0); }
+        .letter-container h2 {
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            font-family: 'Georgia', serif;
         }
 
-        /* Pulse SVG Glow */
-        .pulse-point {
-            animation: pulseGlow 2s infinite alternate;
+        .letter-content {
+            font-family: 'Georgia', serif;
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
         }
 
-        @keyframes pulseGlow {
-            0% { filter: drop-shadow(0 0 2px #48E5C2); }
-            100% { filter: drop-shadow(0 0 10px #48E5C2); }
+        .letter-content p {
+            margin-bottom: 20px;
+            text-align: justify;
         }
 
-        /* Hide Scrollbar */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .letter-photo {
+            width: 100%;
+            max-width: 300px;
+            margin: 30px auto;
+            display: block;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.8);
         }
 
-        /* Paint Waterfall Canvas overlay */
-        #waterfallCanvas {
+        /* Музыка */
+        .music-control {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 100;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .music-control:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 600px) {
+            .start-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .login-box, .checklist, .game-container, .map-container {
+                padding: 25px;
+            }
+
+            .chat-container {
+                padding: 15px;
+            }
+
+            .letter-container {
+                padding: 25px;
+            }
+
+            .letter-content {
+                font-size: 1rem;
+            }
+        }
+
+        /* Скроллбар */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2, #f093fb);
         }
     </style>
 </head>
-<body class="w-full min-h-screen flex items-center justify-center relative overflow-hidden bg-darkbg text-white select-none">
-
-    <!-- Background Audio Element -->
-    <audio id="bgMusic" loop preload="auto">
+<body>
+    <!-- Музыка -->
+    <audio id="bgMusic" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Music Control Toggle Floating Button -->
-    <button id="musicToggleBtn" onclick="toggleAudio()" class="fixed top-4 right-4 z-50 glass-panel p-3 rounded-full text-emeraldgreen border border-emeraldgreen/30 hidden hover:scale-110 active:scale-95 transition-all">
-        <svg id="musicIconPlay" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <svg id="musicIconPause" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    </button>
+    <!-- Кнопка управления музыкой -->
+    <div class="music-control" id="musicControl">
+        🎵
+    </div>
 
-    <!-- Waterfall Effect Canvas -->
-    <canvas id="waterfallCanvas"></canvas>
+    <!-- Экран 1: Начало -->
+    <div id="screen1" class="screen active">
+        <div class="emoji-container" id="emojiContainer"></div>
+        <div class="start-content">
+            <h1>Погнали?</h1>
+            <button class="btn btn-primary" onclick="goToScreen(2)">Полетели ✨</button>
+        </div>
+    </div>
 
-    <!-- App Container -->
-    <main class="w-full max-w-md h-full min-h-screen sm:h-[844px] flex flex-col justify-between p-5 relative z-20">
+    <!-- Экран 2: Проверка -->
+    <div id="screen2" class="screen">
+        <div class="login-box">
+            <h2>Кто тут?</h2>
+            <div class="input-group">
+                <label>Логин (Имя 4 буквы)</label>
+                <input type="text" id="loginInput" placeholder="Введи логин">
+            </div>
+            <div class="input-group">
+                <label>Пароль (ДмесяцГГГГ)</label>
+                <input type="text" id="passwordInput" placeholder="Введи пароль">
+            </div>
+            <div class="error-message" id="errorMessage">Неверный логин или пароль! Попробуй ещё раз 💙</div>
+            <button class="btn btn-primary" onclick="checkLogin()" style="margin-top: 20px; width: 100%;">Войти</button>
+        </div>
+    </div>
 
-        <!-- ==================== SCREEN 1: START ==================== -->
-        <section id="screen1" class="flex flex-col items-center justify-center flex-1 text-center space-y-8 w-full">
-            <!-- Falling Emoji Container -->
-            <div id="emojiContainer" class="absolute inset-0 pointer-events-auto overflow-hidden"></div>
+    <!-- Экран 3: Чат -->
+    <div id="screen3" class="screen">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2>Твои догадки?</h2>
+            </div>
+            <div id="chatMessages">
+                <div class="message bot">
+                    <div class="message-bubble">Привет! 😊 Как думаешь, для чего я сделал этот сайт?</div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Напиши что-нибудь..." onkeypress="handleChatKey(event)">
+                <button onclick="sendChatMessage()">→</button>
+            </div>
+        </div>
+    </div>
 
-            <!-- Pop-up Compliment Display Zone -->
-            <div id="complimentOverlay" class="fixed inset-0 pointer-events-none flex items-center justify-center z-40 p-4"></div>
-
-            <div class="relative z-20 space-y-4 glass-panel p-8 rounded-3xl w-full border border-emeraldgreen/20">
-                <div class="text-6xl mb-2 animate-bounce">💖</div>
-                <h1 class="text-4xl font-bold font-caveat tracking-wide text-emeraldgreen glow-text">Погнали?</h1>
-                <p class="text-sm text-gray-300">Нажимай на падающие эмодзи, тут есть кое-что для тебя! ✨</p>
+    <!-- Экран 4: Карта -->
+    <div id="screen4" class="screen">
+        <div class="map-container">
+            <h2>Маршрут свидания 🗺️</h2>
+            <svg class="route-svg" viewBox="0 0 400 400">
+                <!-- Извилистый маршрут -->
+                <path class="route-line" d="M 50 50 Q 80 100, 120 120 T 180 180 Q 200 220, 240 200 T 300 250 Q 320 280, 350 350" 
+                      stroke="url(#gradient)" stroke-width="4" fill="none"/>
                 
-                <button onclick="goToScreen(2); startAudio();" class="w-full py-4 rounded-2xl glow-btn text-darkbg font-bold text-lg tracking-wide hover:brightness-110 active:scale-95 transition-all">
-                    Полетели! 🚀
-                </button>
+                <!-- Градиент для линии -->
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#fff;stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:#ffd700;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#fff;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+
+                <!-- Точки маршрута -->
+                <g class="route-point" style="animation-delay: 0.5s">
+                    <circle cx="50" cy="50" r="12" fill="#fff" stroke="#ffd700" stroke-width="3"/>
+                    <text x="70" y="55" fill="#fff" font-size="14" font-weight="bold">11:00 у скамейки</text>
+                </g>
+                <g class="route-point" style="animation-delay: 1s">
+                    <circle cx="120" cy="120" r="10" fill="#ffd700"/>
+                    <text x="140" y="125" fill="#fff" font-size="12">секрет 🤫</text>
+                </g>
+                <g class="route-point" style="animation-delay: 1.5s">
+                    <circle cx="180" cy="180" r="10" fill="#fff"/>
+                    <text x="200" y="185" fill="#fff" font-size="12">не покажу 😏</text>
+                </g>
+                <g class="route-point" style="animation-delay: 2s">
+                    <circle cx="240" cy="200" r="10" fill="#ffd700"/>
+                    <text x="260" y="205" fill="#fff" font-size="12">и тут тоже 🎁</text>
+                </g>
+                <g class="route-point" style="animation-delay: 2.5s">
+                    <circle cx="300" cy="250" r="10" fill="#fff"/>
+                    <text x="320" y="255" fill="#fff" font-size="12">а это сюрприз ✨</text>
+                </g>
+                <g class="route-point" style="animation-delay: 3s">
+                    <circle cx="350" cy="350" r="12" fill="#ffd700" stroke="#fff" stroke-width="3"/>
+                    <text x="250" y="380" fill="#fff" font-size="14" font-weight="bold">финал 💛</text>
+                </g>
+            </svg>
+            <button class="btn btn-primary" onclick="goToScreen(5)" style="margin-top: 30px; width: 100%;">Дальше →</button>
+        </div>
+    </div>
+
+    <!-- Экран 5: Снаряга -->
+    <div id="screen5" class="screen">
+        <div class="checklist">
+            <h2>Что с собой?</h2>
+            <div class="checklist-item">
+                <h3>✨ Хорошее настроение</h3>
+                <p>Если забудешь — я своим поделюсь 😉</p>
             </div>
-        </section>
-
-
-        <!-- ==================== SCREEN 2: LOGIN ==================== -->
-        <section id="screen2" class="hidden flex-col items-center justify-center flex-1 text-center w-full my-auto">
-            <div id="loginCard" class="glass-panel p-8 rounded-3xl w-full space-y-6 border border-emeraldgreen/30 relative">
-                <div class="space-y-2">
-                    <span class="text-4xl">🔐</span>
-                    <h2 class="text-2xl font-bold text-emeraldgreen">Кто тут?</h2>
-                    <p class="text-xs text-gray-300">Введите персональный ключ доступа</p>
-                </div>
-
-                <form onsubmit="handleLogin(event)" class="space-y-4 text-left">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-300 mb-1">Имя (4 буквы)</label>
-                        <input type="text" id="loginInput" placeholder="Логин" required autocomplete="off"
-                            class="w-full px-4 py-3 rounded-xl bg-darkbg/80 border border-emeraldgreen/40 text-white placeholder-gray-500 focus:outline-none focus:border-emeraldgreen transition-all">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-300 mb-1">Пароль (ДмесяцГГГГ)</label>
-                        <input type="text" id="passInput" placeholder="Напр. 9октября2026" required autocomplete="off"
-                            class="w-full px-4 py-3 rounded-xl bg-darkbg/80 border border-emeraldgreen/40 text-white placeholder-gray-500 focus:outline-none focus:border-emeraldgreen transition-all">
-                    </div>
-
-                    <div id="errorMsg" class="text-red-400 text-xs text-center font-medium min-h-[20px] hidden"></div>
-
-                    <button type="submit" class="w-full py-3.5 rounded-xl glow-btn text-darkbg font-bold text-base tracking-wide hover:brightness-110 active:scale-95 transition-all">
-                        Войти ✨
-                    </button>
-                </form>
+            <div class="checklist-item">
+                <h3>😊 Очаровательную улыбку</h3>
+                <p>Обязательно! Она у тебя потрясающая</p>
             </div>
-        </section>
-
-
-        <!-- ==================== SCREEN 3: CHAT ==================== -->
-        <section id="screen3" class="hidden flex-col h-full flex-1 w-full justify-between py-4">
-            <!-- Header -->
-            <div class="glass-panel p-4 rounded-2xl flex items-center justify-between border-b border-emeraldgreen/20 mb-3">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emeraldgreen to-tealgreen flex items-center justify-center font-bold text-darkbg">
-                        🤍
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-sm text-white">Твои догадки? 💬</h3>
-                        <p class="text-[10px] text-emeraldgreen">В сети</p>
-                    </div>
-                </div>
+            <div class="checklist-item">
+                <h3>💫 Выглядеть красиво</h3>
+                <p>То есть как всегда — ты и так прекрасна 💙</p>
             </div>
+            <button class="btn btn-primary" onclick="goToScreen(6)" style="margin-top: 30px; width: 100%;">Я готова!</button>
+        </div>
+    </div>
 
-            <!-- Messages Container -->
-            <div id="chatMessages" class="flex-1 overflow-y-auto space-y-3 px-1 no-scrollbar py-2 my-2 flex flex-col justify-end">
-                <div class="bg-cardbg p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/10 text-xs text-gray-200 self-start">
-                    Привет! Знаешь ли ты, для чего этот сайт и что я от тебя хочу? 🙈
-                </div>
+    <!-- Экран 6: Игра -->
+    <div id="screen6" class="screen">
+        <div class="game-container">
+            <h2>Последний вопрос</h2>
+            <p style="margin-bottom: 30px; color: white; font-size: 1.2rem;">Ты идёшь со мной на свидание?</p>
+            <div class="game-buttons">
+                <button class="btn-yes" onclick="showWaterfall()">Да 💙</button>
+                <button class="btn-no" id="noButton" onmouseover="teleportNoButton()">Нет</button>
             </div>
+        </div>
+        <div class="waterfall" id="waterfall"></div>
+    </div>
 
-            <!-- Typing Indicator -->
-            <div id="typingIndicator" class="hidden text-xs text-gray-400 italic mb-2 px-2 flex items-center space-x-1">
-                <span>Сообщение печатается</span>
-                <span class="animate-bounce">.</span><span class="animate-bounce delay-100">.</span><span class="animate-bounce delay-200">.</span>
+    <!-- Экран 7: Письмо -->
+    <div id="screen7" class="screen">
+        <div class="letter-container">
+            <h2>Моей Машуле 💙</h2>
+            <div class="letter-content">
+                <p>Моя самая нежная и родная,</p>
+                
+                <p>Знаешь, мы встречаемся всего три недели. Но у меня такое ощущение, что я знаю тебя всю жизнь. Как будто ты всегда была где-то рядом, просто мы встретились только сейчас.</p>
+                
+                <p>За это короткое время ты каким-то невероятным образом стала для меня самым близким, самым родным и самым важным человеком. Мое сердце будто просто узнало тебя с первой секунды. Мне безумно хорошо с тобой. Знаешь это чувство, когда можно просто молчать и это молчание не давит, а наоборот — успокаивает? Вот с тобой так. Мне приятно каждое мгновение, проведенное рядом, будь то наше свидание или просто переписка перед сном.</p>
+                
+                <p>Ты даже не представляешь, какая ты удивительная. В тебе есть какая-то светлая, настоящая магия. Твоя улыбка способна растопить любой мой плохой день. Ты невероятно красивая, но дело даже не только в этом. Меня до глубины души трогает твоя искренность, твоя забота, твой смех и то тепло, которое ты излучаешь. Рядом с тобой я чувствую такой уют и такое спокойствие, которого не мог найти больше нигде. Мне с тобой так хорошо, так легко и так правильно, что иногда просто перехватывает дыхание от счастья.</p>
+                
+                <p>Я хочу сказать тебе спасибо. Спасибо за твою улыбку, которая делает мой день лучше. Спасибо за твой голос, который я хочу слышать снова и снова, ведь он лучший саундтрек. Ты невероятно красивая — не только внешне, но и внутри. В тебе столько света, тепла и какой-то уютной доброты, что рядом с тобой хочется становиться лучше.</p>
+                
+                <p>Я знаю, что иногда бываю странным. У меня бывают свои тараканы в голове, свои заморочки и настроения. И я безмерно благодарен тебе за то, что ты принимаешь меня таким. За то, что ты не пытаешься меня переделать, а просто любишь. Это для меня значит больше, чем ты можешь себе представить.</p>
+                
+                <p>Спасибо, что выбрала меня. Я хочу беречь тебя, заботиться о тебе и делать так, чтобы ты чувствовала себя самой счастливой. Спасибо, что ты есть у меня. Ты моя Миса <3</p>
+                
+                <p><strong>Тремя словами — я тебя люблю!</strong></p>
+                
+                <p>Жду не дождусь нашего свидания...</p>
+                
+                <p style="text-align: right; font-weight: bold;">Твой Бельчонок <3</p>
             </div>
+            <img src="Зайка.png" alt="Зайка" class="letter-photo">
+        </div>
+    </div>
 
-            <!-- Input Box -->
-            <form id="chatForm" onsubmit="handleChatSubmit(event)" class="flex gap-2">
-                <input type="text" id="chatInput" placeholder="Напиши что угодно..." required autocomplete="off"
-                    class="flex-1 px-4 py-3 rounded-2xl bg-cardbg border border-emeraldgreen/30 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-emeraldgreen">
-                <button type="submit" class="px-5 py-3 rounded-2xl glow-btn text-darkbg font-bold text-xs">
-                    🚀
-                </button>
-            </form>
-
-            <button id="toRouteBtn" onclick="goToScreen(4)" class="hidden mt-3 w-full py-3.5 rounded-2xl glow-btn text-darkbg font-bold text-sm animate-pulse">
-                Посмотреть маршрут 🗺️
-            </button>
-        </section>
-
-
-        <!-- ==================== SCREEN 4: MAP ==================== -->
-        <section id="screen4" class="hidden flex-col items-center justify-between flex-1 w-full space-y-4 py-2">
-            <div class="text-center space-y-1">
-                <h2 class="text-2xl font-bold text-emeraldgreen font-caveat">Маршрут свидания 🗺️</h2>
-                <p class="text-xs text-gray-300">Нажми на секретные точки для подсказок!</p>
-            </div>
-
-            <!-- SVG Map Box -->
-            <div class="relative w-full h-[360px] glass-panel rounded-3xl p-4 overflow-hidden border border-emeraldgreen/30 flex items-center justify-center">
-                <svg id="mapSvg" class="w-full h-full" viewBox="0 0 300 340">
-                    <!-- Path Line -->
-                    <path id="routePath" d="M 40 50 Q 150 20 230 70 T 80 170 T 240 230 T 150 300" 
-                        fill="none" stroke="#48E5C2" stroke-width="4" stroke-dasharray="600" stroke-dashoffset="600" stroke-linecap="round"/>
-                    
-                    <!-- Dynamic SVG Nodes will be generated here -->
-                </svg>
-
-                <!-- Tooltip Modal for Secret Points -->
-                <div id="mapTooltip" class="absolute bottom-3 left-3 right-3 glass-panel p-3 rounded-xl border border-emeraldgreen/40 text-center text-xs text-white hidden animate-fade-in">
-                    <span id="tooltipText"></span>
-                </div>
-            </div>
-
-            <button onclick="goToScreen(5)" class="w-full py-4 rounded-2xl glow-btn text-darkbg font-bold text-sm tracking-wide">
-                Дальше ➡️
-            </button>
-        </section>
-
-
-        <!-- ==================== SCREEN 5: GEAR CHECKLIST ==================== -->
-        <section id="screen5" class="hidden flex-col justify-between flex-1 w-full space-y-6 py-4">
-            <div class="text-center space-y-2">
-                <span class="text-4xl">🎒</span>
-                <h2 class="text-2xl font-bold text-emeraldgreen font-caveat">Что с собой?</h2>
-                <p class="text-xs text-gray-300">Обязательный список для идеального дня</p>
-            </div>
-
-            <div class="space-y-4 w-full">
-                <!-- Option 1 -->
-                <label onclick="toggleCheck(this)" class="glass-panel p-4 rounded-2xl flex items-start space-x-3 cursor-pointer border border-white/10 transition-all hover:border-emeraldgreen/50">
-                    <input type="checkbox" class="hidden check-input">
-                    <div class="w-6 h-6 rounded-lg border-2 border-emeraldgreen flex items-center justify-center mt-0.5 check-box transition-all">
-                        <span class="text-darkbg font-bold text-xs hidden">✓</span>
-                    </div>
-                    <div class="text-xs space-y-1">
-                        <p class="font-bold text-white">Хорошее настроение 😊</p>
-                        <p class="text-gray-400 text-[11px]">если забудешь — я своим поделюсь! 🥰</p>
-                    </div>
-                </label>
-
-                <!-- Option 2 -->
-                <label onclick="toggleCheck(this)" class="glass-panel p-4 rounded-2xl flex items-start space-x-3 cursor-pointer border border-white/10 transition-all hover:border-emeraldgreen/50">
-                    <input type="checkbox" class="hidden check-input">
-                    <div class="w-6 h-6 rounded-lg border-2 border-emeraldgreen flex items-center justify-center mt-0.5 check-box transition-all">
-                        <span class="text-darkbg font-bold text-xs hidden">✓</span>
-                    </div>
-                    <div class="text-xs space-y-1">
-                        <p class="font-bold text-white">Очаровательную улыбку ✨</p>
-                        <p class="text-gray-400 text-[11px]">обязательно к ношению! 😊</p>
-                    </div>
-                </label>
-
-                <!-- Option 3 -->
-                <label onclick="toggleCheck(this)" class="glass-panel p-4 rounded-2xl flex items-start space-x-3 cursor-pointer border border-white/10 transition-all hover:border-emeraldgreen/50">
-                    <input type="checkbox" class="hidden check-input">
-                    <div class="w-6 h-6 rounded-lg border-2 border-emeraldgreen flex items-center justify-center mt-0.5 check-box transition-all">
-                        <span class="text-darkbg font-bold text-xs hidden">✓</span>
-                    </div>
-                    <div class="text-xs space-y-1">
-                        <p class="font-bold text-white">Выглядеть красиво 👑</p>
-                        <p class="text-gray-400 text-[11px]">то есть как всегда! ✨</p>
-                    </div>
-                </label>
-            </div>
-
-            <button onclick="goToScreen(6)" class="w-full py-4 rounded-2xl glow-btn text-darkbg font-bold text-base tracking-wide">
-                Я готова! ✨
-            </button>
-        </section>
-
-
-        <!-- ==================== SCREEN 6: PLAYFUL QUESTION ==================== -->
-        <section id="screen6" class="hidden flex-col items-center justify-center flex-1 w-full space-y-8 text-center relative my-auto">
-            <div class="glass-panel p-8 rounded-3xl w-full space-y-6 border border-emeraldgreen/30 relative min-h-[300px] flex flex-col justify-center items-center">
-                <span class="text-5xl">❓</span>
-                <h2 class="text-2xl font-bold text-emeraldgreen font-caveat">Последний вопрос</h2>
-                <p class="text-base font-semibold text-white">Ты пойдешь со мной на свидание?</p>
-
-                <!-- Buttons Area -->
-                <div class="flex flex-col sm:flex-row gap-4 w-full justify-center items-center pt-4 relative min-h-[100px]" id="answersArea">
-                    <button onclick="triggerWaterfall()" class="w-full sm:w-auto px-8 py-3.5 rounded-xl glow-btn text-darkbg font-bold text-lg tracking-wide z-10">
-                        ДА! 💖
-                    </button>
-
-                    <button id="noBtn" onclick="teleportNoBtn()" onmouseenter="teleportNoBtn()" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-red-500/80 hover:bg-red-500 text-white font-bold text-base transition-all duration-200">
-                        НЕТ
-                    </button>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- ==================== SCREEN 7: LETTER ==================== -->
-        <section id="screen7" class="hidden flex-col items-center flex-1 w-full space-y-6 py-4 overflow-y-auto no-scrollbar">
-            <div class="glass-panel p-6 rounded-3xl w-full border border-emeraldgreen/40 space-y-6 text-left relative">
-                <!-- Floating Stars Background Accent -->
-                <div class="text-center">
-                    <span class="text-3xl">💌</span>
-                    <h2 class="text-2xl font-bold text-emeraldgreen font-caveat text-center mt-1">Моей Машуле</h2>
-                </div>
-
-                <!-- Letter Content -->
-                <div class="text-xs sm:text-sm text-gray-200 leading-relaxed space-y-3 font-sans">
-                    <p class="font-semibold text-white">Моя самая нежная и родная,</p>
-                    
-                    <p>Знаешь, мы встречаемся всего три недели. Но у меня такое ощущение, что я знаю тебя всю жизнь. Как будто ты всегда была где-то рядом, просто мы встретились только сейчас.</p>
-                    
-                    <p>За это короткое время ты каким-то невероятным образом стала для меня самым близким, самым родным и самым важным человеком. Мое сердце будто просто узнало тебя с первой секунды. Мне безумно хорошо с тобой. Знаешь это чувство, когда можно просто молчать и это молчание не давит, а наоборот — успокаивает? Вот с тобой так. Мне приятно каждое мгновение, проведенное рядом, будь то наше свидание или просто переписка перед сном.</p>
-                    
-                    <p>Ты даже не представляешь, какая ты удивительная. В тебе есть какая-то светлая, настоящая магия. Твоя улыбка способна растопить любой мой плохой день. Ты невероятно красивая, но дело даже не только в этом. Меня до глубины души трогает твоя искренность, твоя забота, твой смех и то тепло, которое ты излучаешь. Рядом с тобой я чувствую такой уют и такое спокойствие, которого не мог найти больше нигде. Мне с тобой так хорошо, так легко и так правильно, что иногда просто перехватывает дыхание от счастья.</p>
-                    
-                    <p>Я хочу сказать тебе спасибо. Спасибо за твою улыбку, которая делает мой день лучше. Спасибо за твой голос, который я хочу слышать снова и снова, ведь он лучший саундтрек. Ты невероятно красивая — не только внешне, но и внутри. В тебе столько света, тепла и какой-то уютной доброты, что рядом с тобой хочется становиться лучше.</p>
-                    
-                    <p>Я знаю, что иногда бываю странным. У меня бывают свои тараканы в голове, свои заморочки и настроения. И я безмерно благодарен тебе за то, что ты принимаешь меня таким. За то, что ты не пытаешься меня переделать, а просто любишь. Это для меня значит больше, чем ты можешь себе представить.</p>
-                    
-                    <p>Спасибо, что выбрала меня. Я хочу беречь тебя, заботиться о тебе и делать так, чтобы ты чувствовала себя самой счастливой. Спасибо, что ты есть у меня. Ты моя Миса &lt;3</p>
-                    
-                    <p class="font-bold text-emeraldgreen pt-2">Тремя словами — я тебя люблю!</p>
-                    
-                    <p class="italic text-gray-300">Жду не дождусь нашего свидания...</p>
-                    
-                    <p class="text-right font-caveat text-xl text-emeraldgreen font-bold">Твой Бельчонок &lt;3</p>
-                </div>
-
-                <!-- Photo Container -->
-                <div class="pt-4 border-t border-emeraldgreen/20 flex flex-col items-center">
-                    <div class="p-2 glass-panel rounded-2xl border border-emeraldgreen/30 shadow-2xl max-w-[260px]">
-                        <img src="Зайка.png" alt="Зайка" onerror="this.src='https://placehold.co/400x500/1C2541/48E5C2?text=%D0%97%D0%B0%D0%B9%D0%BA%D0%B0.png'" class="rounded-xl w-full h-auto object-cover">
-                    </div>
-                    <span class="text-[10px] text-gray-400 mt-2">Самая любимая 💖</span>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
     <script>
-        // Audio Management
-        const audio = document.getElementById('bgMusic');
-        const musicToggleBtn = document.getElementById('musicToggleBtn');
-        const musicIconPlay = document.getElementById('musicIconPlay');
-        const musicIconPause = document.getElementById('musicIconPause');
-        let isPlaying = false;
-
-        function startAudio() {
-            audio.play().then(() => {
-                isPlaying = true;
-                musicToggleBtn.classList.remove('hidden');
-                updateAudioIcons();
-            }).catch(e => console.log('Autoplay prevented:', e));
-        }
-
-        function toggleAudio() {
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-            } else {
-                audio.play();
-                isPlaying = true;
-            }
-            updateAudioIcons();
-        }
-
-        function updateAudioIcons() {
-            if (isPlaying) {
-                musicIconPlay.classList.add('hidden');
-                musicIconPause.classList.remove('hidden');
-            } else {
-                musicIconPlay.classList.remove('hidden');
-                musicIconPause.classList.add('hidden');
-            }
-        }
-
-        // Screen Navigation Handler
-        function goToScreen(screenNumber) {
-            for (let i = 1; i <= 7; i++) {
-                const screen = document.getElementById(`screen${i}`);
-                if (screen) {
-                    screen.classList.add('hidden');
-                    screen.classList.remove('flex');
-                }
-            }
-            const targetScreen = document.getElementById(`screen${screenNumber}`);
-            if (targetScreen) {
-                targetScreen.classList.remove('hidden');
-                targetScreen.classList.add('flex');
-            }
-
-            // Screen Specific Actions
-            if (screenNumber === 4) {
-                animateMap();
-            }
-        }
-
-        // Screen 1: Emoji Rain & Burst Compliments Logic
-        const emojis = ['💕', '🌸', '⭐', '🎀', '🧸', '💖', '✨', '🌺'];
+        // Глобальные переменные
+        let musicPlaying = false;
+        const bgMusic = document.getElementById('bgMusic');
         const compliments = [
-            'Ты сногсшибательная! 😍',
-            'Мне с тобой очень повезло! 🍀',
+            'Ты сногшибательная 💙',
+            'Мне с тобой очень повезло ✨',
             'Ты секси 🔥',
-            'Ты прелесть 🌸',
-            'Ты просто чудо ✨',
-            'Умничка 🧠',
-            'Красотка 👑',
-            'Айка 💖',
-            'Милашка 🧸',
-            'Мимими 😊',
-            'Утюю 🥺',
-            'Мое солнышко ☀️'
+            'Ты прелесть 💫',
+            'Ты просто чудо 🌟',
+            'Умничка 🎀',
+            'Красотка 💖',
+            'Айка 💝',
+            'Милашка 🥰',
+            'Мимими 💕',
+            'Утюю 💙',
+            'Солнышко ☀️',
+            'Зайка 🐰',
+            'Принцесса 👑'
         ];
 
+        // Управление музыкой
+        document.getElementById('musicControl').addEventListener('click', function() {
+            if (musicPlaying) {
+                bgMusic.pause();
+                this.textContent = '🎵';
+            } else {
+                bgMusic.play();
+                this.textContent = '🔊';
+            }
+            musicPlaying = !musicPlaying;
+        });
+
+        // Попытка автозапуска музыки
+        document.addEventListener('click', function() {
+            if (!musicPlaying) {
+                bgMusic.play().then(() => {
+                    musicPlaying = true;
+                    document.getElementById('musicControl').textContent = '🔊';
+                }).catch(() => {});
+            }
+        }, { once: true });
+
+        // Переход между экранами
+        function goToScreen(screenNum) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen${screenNum}`).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Экран 1: Падающие эмодзи
+        const emojis = ['💙', '💚', '🌸', '✨', '🌟', '💫', '🌺', '💝', '🦋', '🌷', '💜', '💛', '🧡'];
+        const emojiContainer = document.getElementById('emojiContainer');
+
         function createFallingEmoji() {
-            const container = document.getElementById('emojiContainer');
-            if (!container) return;
-
-            const el = document.createElement('div');
-            el.className = 'falling-item text-2xl sm:text-3xl';
-            el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            const emoji = document.createElement('div');
+            emoji.className = 'falling-emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + '%';
+            emoji.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            emoji.style.fontSize = (Math.random() * 1.5 + 1.5) + 'rem';
             
-            const startLeft = Math.random() * 90;
-            const duration = 4 + Math.random() * 5;
-            
-            el.style.left = `${startLeft}%`;
-            el.style.animationDuration = `${duration}s`;
-
-            el.onclick = (e) => {
+            emoji.addEventListener('click', function(e) {
                 e.stopPropagation();
                 showCompliment(e.clientX, e.clientY);
-                el.remove();
-            };
-
-            container.appendChild(el);
-
-            setTimeout(() => {
-                if (el.parentNode) el.remove();
-            }, duration * 1000);
+                this.remove();
+            });
+            
+            emojiContainer.appendChild(emoji);
+            
+            setTimeout(() => emoji.remove(), 7000);
         }
-
-        setInterval(createFallingEmoji, 600);
 
         function showCompliment(x, y) {
-            const overlay = document.getElementById('complimentOverlay');
-            const compText = compliments[Math.floor(Math.random() * compliments.length)];
+            const compliment = document.createElement('div');
+            compliment.className = 'compliment';
+            compliment.textContent = compliments[Math.floor(Math.random() * compliments.length)];
+            compliment.style.left = x + 'px';
+            compliment.style.top = y + 'px';
+            document.body.appendChild(compliment);
             
-            const card = document.createElement('div');
-            card.className = 'compliment-pop glass-panel px-6 py-3 rounded-2xl text-emeraldgreen font-bold text-base border border-emeraldgreen/50 shadow-2xl absolute';
-            card.innerText = compText;
-            
-            // Adjust position slightly for popup
-            card.style.top = `${Math.min(Math.max(y - 50, 50), window.innerHeight - 100)}px`;
-            card.style.left = `${Math.min(Math.max(x - 100, 20), window.innerWidth - 220)}px`;
-
-            overlay.appendChild(card);
-
-            setTimeout(() => {
-                card.remove();
-            }, 2500);
+            setTimeout(() => compliment.remove(), 2000);
         }
 
-        // Screen 2: Credentials Validation
-        function handleLogin(event) {
-            event.preventDefault();
-            const login = document.getElementById('loginInput').value.trim().toLowerCase();
-            const pass = document.getElementById('passInput').value.trim().toLowerCase();
-            const errDiv = document.getElementById('errorMsg');
-            const card = document.getElementById('loginCard');
+        setInterval(createFallingEmoji, 300);
 
-            // Correct Credentials check (Case-insensitive)
-            if (login === 'маня' && pass === '9октября2026') {
-                errDiv.classList.add('hidden');
+        // Экран 2: Проверка логина
+        function checkLogin() {
+            const login = document.getElementById('loginInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (login === 'Маня' && password === '9октября2026') {
+                errorMessage.classList.remove('show');
                 goToScreen(3);
             } else {
-                errDiv.innerText = 'Хмм, кажется, это не ты! Попробуй еще раз 😉';
-                errDiv.classList.remove('hidden');
-                card.classList.remove('shake-err');
-                void card.offsetWidth; // Trigger reflow
-                card.classList.add('shake-err');
+                errorMessage.classList.add('show');
+                setTimeout(() => errorMessage.classList.remove('show'), 3000);
             }
         }
 
-        // Screen 3: Chat Sequence
-        let chatStep = 0;
+        // Экран 3: Чат
         const botResponses = [
             'Интересный вариант! 😏',
             'Но я уже сам всё выбрал 😊',
             'Смотри, какой маршрут я составил... 👀'
         ];
+        let responseIndex = 0;
 
-        function handleChatSubmit(event) {
-            event.preventDefault();
+        function sendChatMessage() {
             const input = document.getElementById('chatInput');
-            const messagesContainer = document.getElementById('chatMessages');
-            const userText = input.value.trim();
-
-            if (!userText) return;
-
-            // Render User Message
-            const userBubble = document.createElement('div');
-            userBubble.className = 'bg-emeraldgreen/20 p-3.5 rounded-2xl rounded-tr-none max-w-[85%] border border-emeraldgreen/30 text-xs text-emeraldgreen self-end font-medium';
-            userBubble.innerText = userText;
-            messagesContainer.appendChild(userBubble);
-
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Добавляем сообщение пользователя
+            addMessage(message, 'user');
             input.value = '';
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-            // Trigger Sequenced Responses
-            if (chatStep < botResponses.length) {
-                document.getElementById('typingIndicator').classList.remove('hidden');
-                
-                setTimeout(() => {
-                    document.getElementById('typingIndicator').classList.add('hidden');
+            
+            // Добавляем ответ бота через задержку
+            setTimeout(() => {
+                if (responseIndex < botResponses.length) {
+                    addMessage(botResponses[responseIndex], 'bot');
+                    responseIndex++;
                     
-                    const botBubble = document.createElement('div');
-                    botBubble.className = 'bg-cardbg p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/10 text-xs text-gray-200 self-start';
-                    botBubble.innerText = botResponses[chatStep];
-                    messagesContainer.appendChild(botBubble);
-                    
-                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                    chatStep++;
-
-                    if (chatStep === botResponses.length) {
-                        document.getElementById('chatForm').classList.add('hidden');
-                        document.getElementById('toRouteBtn').classList.remove('hidden');
+                    // Переход к следующему экрану после последнего ответа
+                    if (responseIndex === botResponses.length) {
+                        setTimeout(() => {
+                            addMessage('Готов посмотреть? 💙', 'bot');
+                            setTimeout(() => goToScreen(4), 2000);
+                        }, 1500);
                     }
-                }, 1200);
+                }
+            }, 1000);
+        }
+
+        function addMessage(text, type) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = `<div class="message-bubble">${text}</div>`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function handleChatKey(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
             }
         }
 
-        // Screen 4: Map & Interactive Points
-        const mapPointsData = [
-            { x: 40, y: 50, label: "11:00 у скамейки", hint: "Стартовая точка нашего идеального дня! ✨" },
-            { x: 230, y: 70, label: "Секрет 🤫", hint: "Кое-что тёплое и очень вкусное... ☕" },
-            { x: 80, y: 170, label: "Не покажу 🙈", hint: "Место для долгих прогулок и разговоров 🌳" },
-            { x: 240, y: 230, label: "И тут тоже 😜", hint: "Небольшая пауза на кое-что сладкое 🍦" },
-            { x: 150, y: 300, label: "А это сюрприз 🎁", hint: "Главная тайна этого вечера ✨" },
-            { x: 150, y: 300, label: "Финиш ✨", hint: "Романтический финал 💕" }
-        ];
+        // Экран 6: Телепортация кнопки "Нет"
+        const noTexts = ['то что не попадёшь', 'не убежишь', 'не получиться', 'не-а', 'только да', 'на зелёную', 'а ну', 'я ща обижусь', 'ну же 💙'];
+        let noClickCount = 0;
 
-        function animateMap() {
-            const path = document.getElementById('routePath');
-            const svg = document.getElementById('mapSvg');
+        function teleportNoButton() {
+            const btn = document.getElementById('noButton');
+            const container = btn.parentElement;
+            const containerRect = container.getBoundingClientRect();
             
-            // Remove previous nodes
-            const existingNodes = svg.querySelectorAll('.map-node');
-            existingNodes.forEach(n => n.remove());
-
-            // Animate Line Drawing
-            path.style.transition = 'stroke-dashoffset 3.5s ease-in-out';
-            path.style.strokeDashoffset = '0';
-
-            // Generate Interactive Nodes
-            mapPointsData.forEach((pt, idx) => {
-                setTimeout(() => {
-                    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                    g.setAttribute('class', 'map-node cursor-pointer');
-                    
-                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                    circle.setAttribute('cx', pt.x);
-                    circle.setAttribute('cy', pt.y);
-                    circle.setAttribute('r', idx === 0 ? '9' : '7');
-                    circle.setAttribute('fill', idx === 0 ? '#48E5C2' : '#3A506B');
-                    circle.setAttribute('stroke', '#48E5C2');
-                    circle.setAttribute('stroke-width', '2');
-                    circle.setAttribute('class', 'pulse-point');
-
-                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    text.setAttribute('x', pt.x + 12);
-                    text.setAttribute('y', pt.y + 4);
-                    text.setAttribute('fill', '#FFFFFF');
-                    text.setAttribute('font-size', '10');
-                    text.setAttribute('font-weight', '600');
-                    text.textContent = pt.label;
-
-                    g.appendChild(circle);
-                    g.appendChild(text);
-
-                    g.onclick = () => showTooltip(pt.hint);
-
-                    svg.appendChild(g);
-                }, idx * 600);
-            });
+            // Случайная позиция внутри контейнера
+            const maxX = containerRect.width - btn.offsetWidth;
+            const maxY = containerRect.height - btn.offsetHeight;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            btn.style.position = 'absolute';
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+            btn.style.transition = 'all 0.3s';
+            
+            // Меняем текст
+            btn.textContent = noTexts[noClickCount % noTexts.length];
+            noClickCount++;
         }
 
-        function showTooltip(text) {
-            const tooltip = document.getElementById('mapTooltip');
-            const tooltipText = document.getElementById('tooltipText');
-            tooltipText.innerText = text;
-            tooltip.classList.remove('hidden');
-
+        // Экран 6: Водопад красок
+        function showWaterfall() {
+            const waterfall = document.getElementById('waterfall');
+            waterfall.classList.add('active');
+            
+            const colors = ['#4a90e2', '#67d4a8', '#357abd', '#2ecc71', '#5dade2', '#11998e', '#38ef7d'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const drop = document.createElement('div');
+                    drop.className = 'paint-drop';
+                    drop.style.left = Math.random() * 100 + '%';
+                    drop.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    drop.style.animationDelay = Math.random() * 0.5 + 's';
+                    waterfall.appendChild(drop);
+                    
+                    setTimeout(() => drop.remove(), 2500);
+                }, i * 50);
+            }
+            
+            // Переход к письму
             setTimeout(() => {
-                tooltip.classList.add('hidden');
+                waterfall.classList.remove('active');
+                goToScreen(7);
             }, 3000);
         }
 
-        // Screen 5: Checklist logic
-        function toggleCheck(labelEl) {
-            const input = labelEl.querySelector('.check-input');
-            const box = labelEl.querySelector('.check-box');
-            const checkMark = box.querySelector('span');
-
-            input.checked = !input.checked;
-
-            if (input.checked) {
-                box.classList.add('bg-emeraldgreen');
-                checkMark.classList.remove('hidden');
-                labelEl.classList.add('border-emeraldgreen');
-            } else {
-                box.classList.remove('bg-emeraldgreen');
-                checkMark.classList.add('hidden');
-                labelEl.classList.remove('border-emeraldgreen');
+        // Инициализация
+        window.addEventListener('load', function() {
+            // Создаём начальные эмодзи
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createFallingEmoji, i * 200);
             }
-        }
-
-        // Screen 6: Teleporting "NO" button logic
-        let noCount = 0;
-        const noTexts = [
-            "Не попадешь!",
-            "Не убежишь!",
-            "Не получится 😉",
-            "Не-а 😜",
-            "Только да!",
-            "А ну, я ща обижусь 🥺",
-            "Ладно, только ДА! ✨"
-        ];
-
-        function teleportNoBtn() {
-            const btn = document.getElementById('noBtn');
-            const container = document.getElementById('answersArea');
-            
-            noCount++;
-
-            if (noCount >= noTexts.length - 1) {
-                // Transform into Green YES button
-                btn.innerText = "ДА! 💕";
-                btn.className = "w-full sm:w-auto px-8 py-3.5 rounded-xl glow-btn text-darkbg font-bold text-lg tracking-wide z-10";
-                btn.onclick = triggerWaterfall;
-                btn.style.position = "relative";
-                btn.style.left = "0px";
-                btn.style.top = "0px";
-                return;
-            }
-
-            btn.innerText = noTexts[noCount];
-
-            // Teleport button within container bounds
-            const maxX = container.clientWidth - btn.clientWidth - 20;
-            const maxY = 120; // limit vertical jump
-
-            const randomX = Math.random() * maxX - (maxX / 2);
-            const randomY = (Math.random() - 0.5) * maxY;
-
-            btn.style.position = "relative";
-            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-        }
-
-        // Screen 6 to 7: Fluid Paint Waterfall Wash Effect
-        function triggerWaterfall() {
-            const canvas = document.getElementById('waterfallCanvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const particles = [];
-            const colors = ['#0B132B', '#1C2541', '#3A506B', '#2A9D8F', '#48E5C2'];
-
-            // Create massive water particle stream
-            for (let i = 0; i < 400; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: -Math.random() * canvas.height,
-                    radius: Math.random() * 25 + 10,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    speed: Math.random() * 15 + 10
-                });
-            }
-
-            let animationFrame;
-
-            function renderWaterfall() {
-                ctx.fillStyle = 'rgba(11, 19, 43, 0.2)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                let allOffscreen = true;
-
-                particles.forEach(p => {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = p.color;
-                    ctx.fill();
-
-                    p.y += p.speed;
-
-                    if (p.y < canvas.height + 50) {
-                        allOffscreen = false;
-                    }
-                });
-
-                if (!allOffscreen) {
-                    animationFrame = requestAnimationFrame(renderWaterfall);
-                } else {
-                    cancelAnimationFrame(animationFrame);
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    
-                    // Trigger Confetti and Show Final Letter
-                    goToScreen(7);
-                    triggerConfetti();
-                }
-            }
-
-            renderWaterfall();
-        }
-
-        function triggerConfetti() {
-            confetti({
-                particleCount: 120,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#48E5C2', '#2A9D8F', '#C77DFF', '#FFFFFF']
-            });
-        }
+        });
     </script>
 </body>
 </html>
