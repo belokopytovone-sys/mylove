@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Для моей Машули 💙💚</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/marck-script@latest/cyrillic-400-normal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/great-vibes@latest/cyrillic-400-normal.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/caveat@latest/cyrillic-400-normal.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/caveat@latest/cyrillic-700-normal.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/dancing-script@latest/cyrillic-400-normal.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/dancing-script@latest/cyrillic-700-normal.css">
     <style>
         * {
             margin: 0;
@@ -583,10 +583,11 @@
             line-height: 1.5;
         }
 
-        /* Экран 6 - Красный с золотом (без рамок и полей) */
+        /* Экран 6 - Красный с золотом */
         #screen6 {
             background: linear-gradient(135deg, #f5576c 0%, #ff6b9d 50%, #ffd700 100%);
             text-align: center;
+            overflow: hidden;
         }
 
         #screen6::before {
@@ -613,13 +614,13 @@
             margin-bottom: 30px;
             font-size: 2.5rem;
             text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
-            font-family: 'Dancing Script', cursive;
+            font-family: 'Great Vibes', cursive;
         }
 
         .game-question {
             color: white;
-            font-size: 1.4rem;
-            margin-bottom: 50px;
+            font-size: 1.5rem;
+            margin-bottom: 60px;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             font-family: 'Caveat', cursive;
             font-weight: 700;
@@ -641,7 +642,7 @@
             background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             color: white;
             padding: 20px 50px;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
@@ -650,7 +651,6 @@
             animation: buttonPulse 2s ease-in-out infinite;
             font-weight: 700;
             font-family: 'Caveat', cursive;
-            font-size: 1.8rem;
         }
 
         @keyframes buttonPulse {
@@ -668,19 +668,18 @@
             color: white;
             border: 2px solid white;
             padding: 20px 50px;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease-out;
             font-family: 'Caveat', cursive;
-            font-size: 1.8rem;
             font-weight: 700;
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
         }
 
-        /* Водопад сердечек */
+        /* Огромный водопад сердечек */
         .waterfall {
             position: fixed;
             top: 0;
@@ -699,33 +698,34 @@
 
         .heart-drop {
             position: absolute;
-            top: -100px;
-            font-size: 2rem;
+            top: -150px;
             animation: heartFall linear forwards;
-            filter: drop-shadow(0 0 10px currentColor);
+            filter: drop-shadow(0 0 15px currentColor);
         }
 
         @keyframes heartFall {
             0% {
-                transform: translateY(0) rotate(0deg) scale(0.5);
+                transform: translateY(0) rotate(0deg) scale(0.3);
                 opacity: 0;
             }
-            10% {
+            5% {
                 opacity: 1;
-                transform: translateY(10vh) rotate(20deg) scale(1);
             }
-            90% {
+            50% {
+                transform: translateY(55vh) rotate(360deg) scale(1.2);
+            }
+            95% {
                 opacity: 1;
             }
             100% {
-                transform: translateY(110vh) rotate(720deg) scale(1.5);
+                transform: translateY(115vh) rotate(1080deg) scale(1.8);
                 opacity: 0;
             }
         }
 
         @keyframes heartSway {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(30px); }
+            0%, 100% { margin-left: 0; }
+            50% { margin-left: 40px; }
         }
 
         /* Экран 7 - Нежный розовый с красивым шрифтом */
@@ -758,9 +758,8 @@
         }
 
         .letter-container h2 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
-            font-weight: 700;
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
             background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
             background-size: 200% 200%;
             -webkit-background-clip: text;
@@ -769,15 +768,15 @@
             animation: shimmer 3s ease-in-out infinite;
             text-align: center;
             margin-bottom: 30px;
+            line-height: 1.2;
         }
 
         .letter-content {
-            font-family: 'Caveat', cursive;
+            font-family: 'Marck Script', cursive;
             color: #2c2c2c;
-            font-size: 1.5rem;
-            font-weight: 400;
+            font-size: 1.6rem;
             margin-bottom: 30px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .letter-content p {
@@ -787,16 +786,26 @@
 
         .letter-content strong {
             font-weight: 700;
+            font-family: 'Caveat', cursive;
             color: #667eea;
-            font-size: 1.7rem;
+            font-size: 2rem;
+            display: block;
+            text-align: center;
+            margin: 25px 0;
+            background: linear-gradient(45deg, #667eea, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .letter-signature {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
-            font-weight: 700;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
             text-align: right;
-            color: #764ba2;
+            background: linear-gradient(45deg, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-top: 20px;
         }
 
@@ -854,19 +863,28 @@
             }
 
             .letter-content {
-                font-size: 1.3rem;
+                font-size: 1.4rem;
             }
 
             .letter-container h2 {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
 
-            .game-content h2 {
+            .letter-content strong {
+                font-size: 1.7rem;
+            }
+
+            .letter-signature {
                 font-size: 2rem;
             }
 
+            .game-content h2 {
+                font-size: 2.2rem;
+            }
+
             .game-question {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
+                margin-bottom: 40px;
             }
 
             .btn-yes, .btn-no {
@@ -940,11 +958,9 @@
         <div class="map-container">
             <h2>Маршрут свидания 🗺️</h2>
             <svg class="route-svg" viewBox="0 0 400 400">
-                <!-- Извилистый маршрут -->
                 <path class="route-line" d="M 50 50 Q 80 100, 120 120 T 180 180 Q 200 220, 240 200 T 300 250 Q 320 280, 350 350" 
                       stroke="url(#gradient)" stroke-width="4" fill="none"/>
                 
-                <!-- Градиент для линии -->
                 <defs>
                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" style="stop-color:#ff69b4;stop-opacity:1" />
@@ -953,7 +969,6 @@
                     </linearGradient>
                 </defs>
 
-                <!-- Точки маршрута -->
                 <g class="route-point" style="animation-delay: 0.5s">
                     <circle cx="50" cy="50" r="12" fill="#ff69b4" stroke="#ffd700" stroke-width="3"/>
                     <text x="70" y="55" fill="#fff" font-size="14" font-weight="bold">11:00 у скамейки</text>
@@ -1003,7 +1018,7 @@
         </div>
     </div>
 
-    <!-- Экран 6: Игра (без рамок и полей) -->
+    <!-- Экран 6: Игра -->
     <div id="screen6" class="screen">
         <div class="game-content">
             <h2>Последний вопрос</h2>
@@ -1057,7 +1072,7 @@
             'Ты просто чудо 🌟',
             'Умничка 🎀',
             'Красотка 💖',
-            'Ай какая 💝',
+            'Айка 💝',
             'Милашка 🥰',
             'Мимими 💕',
             'Утюю 💙',
@@ -1079,7 +1094,6 @@
             musicPlaying = !musicPlaying;
         });
 
-        // Попытка автозапуска музыки
         document.addEventListener('click', function() {
             if (!musicPlaying) {
                 bgMusic.play().then(() => {
@@ -1089,7 +1103,6 @@
             }
         }, { once: true });
 
-        // Переход между экранами
         function goToScreen(screenNum) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(`screen${screenNum}`).classList.add('active');
@@ -1198,7 +1211,7 @@
             }
         }
 
-        // Экран 6: Телепортация кнопки "Нет" (работает и на мобильных)
+        // Экран 6: Телепортация кнопки "Нет" с ограничением зоны
         const noTexts = ['то что не попадёшь', 'не убежишь', 'не получиться', 'не-а', 'только да', 'на зелёную', 'а ну', 'я ща обижусь', 'ну же 💙'];
         let noClickCount = 0;
         const noButton = document.getElementById('noButton');
@@ -1211,11 +1224,14 @@
             const btnWidth = btn.offsetWidth;
             const btnHeight = btn.offsetHeight;
             
-            const maxX = screenRect.width - btnWidth - 20;
-            const maxY = screenRect.height - btnHeight - 20;
+            // Ограничиваем зону: от 15% до 85% высоты экрана, чтобы кнопка была видна
+            const minY = screenRect.height * 0.15;
+            const maxY = screenRect.height * 0.85 - btnHeight;
+            const minX = 15;
+            const maxX = screenRect.width - btnWidth - 15;
             
-            const randomX = Math.random() * maxX + 10;
-            const randomY = Math.random() * maxY + 10;
+            const randomX = Math.random() * (maxX - minX) + minX;
+            const randomY = Math.random() * (maxY - minY) + minY;
             
             btn.style.position = 'fixed';
             btn.style.left = randomX + 'px';
@@ -1228,7 +1244,6 @@
             noClickCount++;
         }
 
-        // Поддержка и мыши, и тач-событий
         noButton.addEventListener('mouseenter', teleportNoButton);
         noButton.addEventListener('touchstart', function(e) {
             e.preventDefault();
@@ -1240,48 +1255,66 @@
         });
         noButton.addEventListener('focus', teleportNoButton);
 
-        // Экран 6: Красивый водопад из сердечек
+        // ОГРОМНЫЙ водопад сердечек
         function showWaterfall() {
             const waterfall = document.getElementById('waterfall');
             waterfall.classList.add('active');
             
             // В основном синие и зелёные сердечки
-            const hearts = ['💙', '💚', '💙', '💙', '💚', '💙', '💙', '💚', '💙', '💙'];
-            const colors = ['#4a90e2', '#67d4a8', '#357abd', '#2ecc71', '#5dade2', '#11998e', '#38ef7d', '#1e90ff', '#00bfff', '#20b2aa'];
+            const hearts = ['💙', '💚', '💙', '💙', '💚', '💙', '💙', '💚', '💙', '💙', '💙', '💚'];
+            const colors = ['#4a90e2', '#67d4a8', '#357abd', '#2ecc71', '#5dade2', '#11998e', '#38ef7d', '#1e90ff', '#00bfff', '#20b2aa', '#00CED1', '#48D1CC'];
             
-            // Создаём много сердечек для красивого эффекта
-            const totalHearts = 80;
+            // ОЧЕНЬ много сердечек - 300 штук!
+            const totalHearts = 300;
             
             for (let i = 0; i < totalHearts; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
                     heart.className = 'heart-drop';
                     
-                    // 80% синих/зелёных, 20% других
-                    if (Math.random() < 0.8) {
+                    // 85% синих/зелёных, 15% других
+                    if (Math.random() < 0.85) {
                         heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
                     } else {
-                        heart.textContent = ['💙', '💚', '💎', '🌊'][Math.floor(Math.random() * 4)];
+                        heart.textContent = ['💙', '💚', '💎', '🌊', '💠'][Math.floor(Math.random() * 5)];
                     }
                     
                     const color = colors[Math.floor(Math.random() * colors.length)];
                     heart.style.color = color;
                     heart.style.left = Math.random() * 100 + '%';
-                    heart.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
-                    heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    heart.style.animationDelay = (Math.random() * 0.3) + 's';
+                    
+                    // Очень разные размеры - от маленьких до ОГРОМНЫХ
+                    const sizeRoll = Math.random();
+                    let fontSize;
+                    if (sizeRoll < 0.5) {
+                        fontSize = (Math.random() * 2 + 2); // 2-4rem
+                    } else if (sizeRoll < 0.85) {
+                        fontSize = (Math.random() * 3 + 4); // 4-7rem
+                    } else {
+                        fontSize = (Math.random() * 4 + 7); // 7-11rem - ОГРОМНЫЕ
+                    }
+                    heart.style.fontSize = fontSize + 'rem';
+                    
+                    // Разная скорость падения
+                    heart.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+                    heart.style.animationDelay = (Math.random() * 0.5) + 's';
+                    
+                    // Добавляем горизонтальное покачивание некоторым
+                    if (Math.random() < 0.5) {
+                        heart.style.animation += `, heartSway ${Math.random() * 2 + 2}s ease-in-out infinite`;
+                    }
                     
                     waterfall.appendChild(heart);
                     
-                    setTimeout(() => heart.remove(), 4500);
-                }, i * 40);
+                    setTimeout(() => heart.remove(), 5500);
+                }, i * 25);
             }
             
             // Переход к письму
             setTimeout(() => {
                 waterfall.classList.remove('active');
                 goToScreen(7);
-            }, 4000);
+            }, 5000);
         }
 
         // Инициализация
